@@ -1,0 +1,2435 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+
+	<head>
+		<title>GZIP 압축 예제 소스 코드</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="zlib gzip example">
+		<meta name="ProgId" content="Word.Document">
+		<meta name="Generator" content="Microsoft Word 10">
+		<meta name="Originator" content="Microsoft Word 10">
+
+		<link rel="File-List" href="GZIP_Example.files/filelist.xml">
+			<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Compatibility>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]-->
+			<style>
+				<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:바탕;
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-alt:Batang;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:굴림;
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-alt:Gulim;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@굴림";
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@바탕";
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:돋움체;
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@돋움체";
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:한컴바탕;
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1 -1 63 0 524288 0;}
+@font-face
+	{font-family:"\@한컴바탕";
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1 -1 63 0 524288 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:굴림;
+	mso-bidi-font-family:굴림;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:굴림;
+	mso-bidi-font-family:굴림;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:99.25pt 3.0cm 3.0cm 3.0cm;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:1132749175;
+	mso-list-type:hybrid;
+	mso-list-template-ids:1045338332 -1626822664 67698713 67698715 67698703 67698713 67698715 67698703 67698713 67698715;}
+@list l0:level1
+	{mso-level-tab-stop:57.75pt;
+	mso-level-number-position:left;
+	margin-left:57.75pt;
+	text-indent:-18.0pt;
+	mso-ansi-font-weight:bold;}
+@list l0:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+			</style>
+		<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"표준 표";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+table.MsoTableGrid
+	{mso-style-name:"표 구분선";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:굴림;}
+</style>
+<![endif]-->
+	</head>
+
+	<body lang="KO" link="blue" vlink="purple" style='tab-interval:40.0pt'>
+
+		<div class="Section1">
+
+			<p class="MsoNormal"><a name="[문서의_처음]"></a><b style='mso-bidi-font-weight:normal'><span lang="EN-US"><a href="Index.htm">HOME</a> &gt; <a href="GzipFileFormat.html">GZIP
+							파일의 구조</a> &gt; 예제 소스 보기<o:p></o:p></span></b></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" align="center" style='text-align:center;mso-pagination:none;
+mso-layout-grid-align:none;text-autospace:none'><b style='mso-bidi-font-weight:
+normal'><span lang="EN-US" style='font-size:20.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman"'>GZIP 압축 예제 소스 코드<o:p></o:p></span></b></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><b style='mso-bidi-font-weight:normal'><span style='font-size:16.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'>목차<span lang="EN-US"><o:p></o:p></span></span></b></p>
+
+			<p class="MsoNormal" style='margin-left:57.75pt;text-indent:-18.0pt;mso-pagination:
+none;mso-list:l0 level1 lfo2;tab-stops:list 57.75pt;mso-layout-grid-align:none;
+text-autospace:none'><![if !supportLists]><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:돋움체'><span style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span></span></b><![endif]><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'><a href="GZIP_Example.html#Core">핵심 사항</a><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='margin-left:57.75pt;text-indent:-18.0pt;mso-pagination:
+none;mso-list:l0 level1 lfo2;tab-stops:list 57.75pt;mso-layout-grid-align:none;
+text-autospace:none'><![if !supportLists]><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:돋움체'><span style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span></span></b><![endif]><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'><a href="GZIP_Example.html#HeaderFile">gzipfile.h</a><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='margin-left:57.75pt;text-indent:-18.0pt;mso-pagination:
+none;mso-list:l0 level1 lfo2;tab-stops:list 57.75pt;mso-layout-grid-align:none;
+text-autospace:none'><![if !supportLists]><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:돋움체'><span style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span></span></b><![endif]><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'><a href="GZIP_Example.html#SourceFile">gzipfilc.cpp</a><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='margin-left:57.75pt;text-indent:-18.0pt;mso-pagination:
+none;mso-list:l0 level1 lfo2;tab-stops:list 57.75pt;mso-layout-grid-align:none;
+text-autospace:none'><![if !supportLists]><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:돋움체'><span style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp; </span></span></span></b><![endif]><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'><a href="GZIP_Example.html#Decompress">복원</a>
+					<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><a name="Core"></a><b style='mso-bidi-font-weight:normal'><span style='font-size:14.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman";color:red'>핵심 사항<span lang="EN-US"><o:p></o:p></span></span></b></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;mso-border-alt:solid windowtext .5pt;
+ mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+				<tr style='mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+					<td width="580" valign="top" style='width:435.1pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>int
+  main( int argc, char *argv[] )<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>{<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  ( argv[1] == NULL )<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return
+  0;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//원본 파일의 사이즈를 알아낸다. <o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>FILE
+  *fp = fopen( argv[1] , &quot;rb&quot; );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fseek(
+  fp, 0L, SEEK_END );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>int
+  orgsize = ftell( fp );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fseek(
+  fp, 0L, SEEK_SET );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>char
+  buffer[4096];<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>int
+  tmpsize = orgsize;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>CGZipFile
+  gzipFile;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//압축률을 정한다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipFile.SetCompressLevel(
+  Z_DEFAULT_COMPRESSION );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//압축파일을 연다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipFile.Open(
+  &quot;gzip.gz&quot;, &quot;wb&quot; );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>char
+  result[ 0x8000 * 2 ];<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//헤더 부분을 생성한다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipFile.SetHeader(
+  argv[1] );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//압축한다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipFile.DeflateInit(
+  result, 0x8000 );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>while(
+  (tmpsize - 4096 )&gt; 0 )<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fread(
+  buffer, 4096, 1, fp );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipFile.Write(
+  buffer, 4096 );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>tmpsize
+  -= 4096;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fread(
+  buffer, tmpsize, 1, fp );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipFile.Write(
+  buffer, tmpsize, Z_FINISH );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//Close()함수는 Crc32와 원본 파일의 크기를 기록한다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipFile.Close(
+  orgsize );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fclose(
+  fp );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>return
+  1;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+  color:green'>//기본 헤더 정보를 위한 구조체이다.<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>typedef
+  struct _tagGZIPHEADER<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>{<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+  id[2];<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+  cm;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+  flag;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+  mTime[4];<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+  xfl;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+  os;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>}GZIPHEADER;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>void
+  CGZipFile::SetHeader( const char *_inputfilename )<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>{<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//ID값은 정해져 있다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipHeader.id[0]
+  = 0x1f;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipHeader.id[1]
+  =0x8b;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//CM값도 정해져 있다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipHeader.cm
+  = 8;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>// flag=8이면 원본 파일의 이름을 기록한다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipHeader.flag
+  = 8;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//현재 시간을 기록한다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>time_t
+  mtime;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>time(
+  &amp;mtime );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>memcpy(
+  gzipHeader.mTime, &amp;mtime, 4 );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//XFL값 세팅<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipHeader.xfl
+  = 0;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//파일 시스템 기록<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipHeader.os
+  = 0x0b;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//기본헤더 기록<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fseek(
+  fp, 0, SEEK_SET );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fwrite(
+  &amp;gzipHeader, sizeof( gzipHeader ), 1, fp );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//flag=8이므로 원본 파일의 이름도 기록해야 한다.<span style='mso-tab-count:
+  1'>&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>char
+  buffer[ 128 ];<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>char
+  *ptr = (char *)_inputfilename;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>while(
+  *ptr != '\\' &amp;&amp; *ptr != '\0' )<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>ptr++;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  ( *ptr == '\0' )<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>strcpy(
+  buffer, _inputfilename );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>else<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>ptr++;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>strcpy(
+  buffer, ptr );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>int
+  len = strlen( buffer );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>buffer[
+  len ] = 0;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fwrite(
+  buffer, len + 1, 1, fp );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>void
+  CGZipFile::Close( int _orgsize )<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>{<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>deflateEnd(
+  &amp;gzipStream );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//CRC32 정보를 기록한다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fwrite(
+  &amp;crc, 4, 1, fp );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//원본파일의 크기를 기록한다.<o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fwrite(
+  &amp;_orgsize, 4, 1, fp );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fclose(fp);<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+  color:blue'><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><a name="HeaderFile"></a><b style='mso-bidi-font-weight:
+normal'><span lang="EN-US" style='font-size:16.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:red'>//
+gzipfile.h<o:p></o:p></span></b></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#ifndef</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'> </span><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>__GZIPFILE_H__<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#define</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>__GZIPFILE_H__<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#include</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&quot;zlib.h&quot;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#include</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&quot;zconf.h&quot;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#ifndef</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+Z_BUFSIZE<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#define</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+Z_BUFSIZE (16384)<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#endif<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#ifndef</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+Z_MAXFILENAMEINZIP<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#define</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+Z_MAXFILENAMEINZIP (256)<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#endif<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#ifndef</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+DEF_MEM_LEVEL<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#if</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+MAX_MEM_LEVEL &gt;= 8<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#<span style='mso-spacerun:yes'>&nbsp; </span>define</span><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'> DEF_MEM_LEVEL 8<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#else<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#<span style='mso-spacerun:yes'>&nbsp; </span>define</span><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'> DEF_MEM_LEVEL<span style='mso-spacerun:yes'>&nbsp; </span>MAX_MEM_LEVEL<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#endif<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#endif<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>typedef</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>unsigned</span> <span style='color:blue'>char</span><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>uchar;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>typedef</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>const</span> uchar<span style='mso-tab-count:3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>cuchar;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>typedef</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>unsigned</span> <span style='color:blue'>long</span><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>ulong;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>typedef</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>uchar<span style='mso-tab-count:4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#include</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>&lt;stdio.h&gt;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#define</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>DEFLATE<span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>0<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>#define</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>INFLATE<span style='mso-tab-count:3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>1<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>typedef</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+<span style='color:blue'>struct</span> _tagGZIPHEADER<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>{<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+id[2];<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+cm;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+flag;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+mTime[4];<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+xfl;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>BYTE
+os;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>}GZIPHEADER;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>class</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+CGZipFile<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>{<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>public</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>:<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>CGZipFile();<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>~CGZipFile();<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>inline</span> <span style='color:blue'>void</span>
+SetHeader( <span style='color:blue'>const</span> <span style='color:blue'>char</span>
+*_filename );<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> Open( <span style='color:blue'>const</span> <span style='color:blue'>char</span> *_filename, <span style='color:blue'>const</span>
+<span style='color:blue'>char</span> *_mode = &quot;wb&quot; );<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> Write( <span style='color:blue'>const</span> <span style='color:blue'>char</span> *_data, <span style='color:blue'>int</span>
+_dataSize, <span style='color:blue'>int</span> _flush = Z_NO_FLUSH );<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>void</span> Close( <span style='color:blue'>int</span>
+_orgsize );<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>inline</span> <span style='color:blue'>void</span>
+SetCompressLevel( <span style='color:blue'>int</span> _compLevel ){
+compressLevel = _compLevel; }<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>void</span> DeflateInit( <span style='color:blue'>char</span>
+*_resultData, <span style='color:blue'>int</span> _resultSize );<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>private</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>:<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>GZIPHEADER
+gzipHeader;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> fType;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> compressLevel;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>FILE
+*fp;<span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>char</span> *result;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> resultSize;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> crc;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> orgsize;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>z_stream
+gzipStream;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>};<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:
+"Times New Roman";color:blue'>#endif</span><span lang="EN-US" style='font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:
+"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/* gzipfile.h */</span></span><span lang="EN-US" style='font-size:10.0pt;font-family:바탕;color:black'>&nbsp;<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;mso-line-height-alt:15.75pt'><a name="SourceFile"></a><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:16.0pt;
+font-family:바탕;color:red'>// gzipfile.cpp <o:p></o:p></span></b></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>////////////////////////////////////////////////////////////////////////////////////////////////////////////
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>#include<span style='HWP-TAB:1'>&nbsp;&quot;gzipfile.h&quot;
+<o:p></o:p></span></p>
+
+			</span>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>#include &lt;string.h&gt; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>#include &lt;time.h&gt; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>CGZipFile::CGZipFile() <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>{ <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fp
+= NULL; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fType
+= DEFLATE; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>compressLevel
+= Z_DEFAULT_COMPRESSION; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>crc
+= crc32( 0L, 0L, 0L ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>memset(
+&amp;gzipStream, 0, sizeof( gzipStream ) ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>} <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>CGZipFile::~CGZipFile() <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>{ <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>if
+( fp ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fclose(
+fp ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fp =
+NULL; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>}
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>} <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>void CGZipFile::Close( int _orgsize ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>{ <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>deflateEnd(
+&amp;gzipStream ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fwrite(
+&amp;crc, 4, 1, fp ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fwrite(
+&amp;_orgsize, 4, 1, fp ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fclose(fp);
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>} <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>int CGZipFile::Open( const char *_filename ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>{ <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>int
+err; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipStream.zalloc
+= (alloc_func)0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipStream.zfree
+= (free_func)0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipStream.opaque
+= (voidpf)0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fType
+= DEFLATE; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span lang="EN-US" style='font-size:10.0pt;font-family:바탕;color:red'>//주의!!!!!<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:red'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//window
+bit값이 음수이면 zlib 형식이 아닌 gzip파일 포맷이라는 뜻이다.<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>err
+= deflateInit2( &amp;gzipStream, compressLevel, Z_DEFLATED, -MAX_WBITS, <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>DEF_MEM_LEVEL,
+Z_DEFAULT_STRATEGY ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>if
+( err != Z_OK ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>return
+0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fp
+= fopen( _filename, &quot;wb&quot; ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>return
+(int) fp; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>} <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>int CGZipFile::Write( const char *_data, int
+_dataSize, int _flush ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>{ <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>int
+err; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipStream.avail_out
+= (uInt)this-&gt;resultSize; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipStream.next_out
+= (Bytef*)this-&gt;result; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipStream.avail_in
+= (uInt)_dataSize; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipStream.next_in
+= (Bytef*)_data; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>crc
+= crc32( crc, (const BYTE *)_data, _dataSize ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>err
+= ::deflate( &amp;gzipStream, _flush ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>if
+( err != Z_OK &amp;&amp; err != Z_STREAM_END ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>return
+0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>int
+writeSize = gzipStream.total_out; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>if
+( writeSize != 0 ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>if (
+writeSize &gt; DEFLATE_SIZE ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>printf(&quot;Big
+Size: %d\n&quot;, writeSize ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>printf(&quot;Size:
+%d\n&quot;, writeSize ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>if ( fwrite(
+result, writeSize, 1, fp ) == 0 ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>return
+Z_ERRNO; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipStream.total_out
+= 0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>}
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>if
+( err != Z_OK &amp;&amp; err != Z_STREAM_END ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>return
+0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>return
+1; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>} <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>void CGZipFile::DeflateInit( char *_resultData ,
+int _resultSize ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>{ <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>result
+= _resultData; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>resultSize
+= _resultSize; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>} <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>void CGZipFile::SetHeader( const char
+*_inputfilename ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>{ <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipHeader.id[0]
+= 0x1f; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipHeader.id[1]
+=0x8b; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipHeader.cm
+= 8; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipHeader.flag
+= 8; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>time_t
+mtime; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>time(
+&amp;mtime ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>memcpy(
+gzipHeader.mTime, &amp;mtime, 4 ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipHeader.xfl
+= 0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipHeader.os
+= 0x0b; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fseek(
+fp, 0, SEEK_SET ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fwrite(
+&amp;gzipHeader, sizeof( gzipHeader ), 1, fp ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>char
+buffer[ 128 ]; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>char
+*ptr = (char *)_inputfilename; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>while(
+*ptr != '\\' &amp;&amp; *ptr != '\0' ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>ptr++;
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>}
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>if
+( *ptr == '\0' ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>strcpy(
+buffer, _inputfilename ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>}
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>else
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>ptr++;
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>strcpy(
+buffer, ptr ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>}
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>int
+len = strlen( buffer ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>buffer[
+len ] = 0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fwrite(
+buffer, len + 1, 1, fp ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>} <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>int main( int argc, char *argv[] ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>{ <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>if
+( argv[1] == NULL ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>return
+0; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>FILE
+*fp = fopen( argv[1] , &quot;rb&quot; ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fseek(
+fp, 0L, SEEK_END ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>int
+orgsize = ftell( fp ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fseek(
+fp, 0L, SEEK_SET ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>char
+buffer[ DEFLATE_SIZE + 1]; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>int
+tmpsize = orgsize; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>CGZipFile
+gzipFile; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipFile.SetCompressLevel(
+Z_DEFAULT_COMPRESSION ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipFile.Open(
+&quot;gzip.gz&quot; ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>char
+result[ 0x8000 * 2 ]; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipFile.SetHeader(
+argv[1] ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipFile.DeflateInit(
+result, 0x8000 ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>while(
+(tmpsize - DEFLATE_SIZE )&gt; 0 ) <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fread(
+buffer, DEFLATE_SIZE, 1, fp ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipFile.Write(
+buffer, DEFLATE_SIZE ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>tmpsize
+-= DEFLATE_SIZE; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>}
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fread(
+buffer, tmpsize, 1, fp ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipFile.Write(
+buffer, tmpsize, Z_FINISH ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>gzipFile.Close(
+orgsize ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>fclose(
+fp ); <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><span style='HWP-TAB:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>return
+1; <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>} <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'>////////////////////////////////////////////////////////////////////////////////////////////////////////////
+<o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+mso-fareast-font-family:한컴바탕;mso-bidi-font-family:한컴바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+mso-fareast-font-family:한컴바탕;mso-bidi-font-family:한컴바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+mso-fareast-font-family:한컴바탕;mso-bidi-font-family:한컴바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;mso-line-height-alt:15.75pt'><a name="Decompress"></a><b style='mso-bidi-font-weight:normal'><span style='font-size:16.0pt;font-family:
+바탕;color:red'>복원</span></b><span lang="EN-US" style='font-size:10.0pt;mso-fareast-font-family:
+한컴바탕;mso-bidi-font-family:한컴바탕;color:black'><o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+mso-fareast-font-family:한컴바탕;mso-bidi-font-family:한컴바탕;color:black'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>void</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+gz_decompress(<span style='color:blue'>const</span> <span style='color:blue'>char</span>*
+src_filename)<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/* 전개(복원) */<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>{<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>z_stream
+z;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>unsigned</span> <span style='color:blue'>char</span>* inbuf
+= NULL;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>unsigned</span> <span style='color:blue'>char</span>* outbuf
+= NULL;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>char</span> dest_filename[256]={0,};<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>unsigned</span> <span style='color:blue'>int</span> count,
+status;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>unsigned</span> <span style='color:blue'>long</span>
+INBUFSIZE;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>unsigned</span> <span style='color:blue'>long</span>
+OUTBUFSIZE;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//파일 네임 설정<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> strl;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>strl
+= strlen(src_filename);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>strncpy(dest_filename,src_filename,
+strl-4);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>printf(&quot;dest
+filename = %s\n\n&quot;,dest_filename);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//압축 파일을 읽어들인다.<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>FILE*
+fin = fopen(src_filename, &quot;rb&quot;);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>if</span>(fin == NULL)<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>printf(&quot;%s
+open failed\n&quot;, src_filename);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>FILE*
+fout = fopen(dest_filename, &quot;wb&quot;);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>if</span>(fout == NULL)<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>printf(&quot;%s
+open failed\n&quot;, dest_filename);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//압축 파일로부터 헤더를 읽어온다</span>.<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>GZIPHEADER
+header;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fseek(fin,0,SEEK_SET);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fread(&amp;header,<span style='color:blue'>sizeof</span>(GZIPHEADER),1,fin);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//압축 파일로부터 원래 파일의 이름을 알아온다.<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>char</span> filename[1024]=&quot;\0&quot;;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> pos=0;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>char</span> _char=(<span style='color:blue'>char</span>)fgetc(fin);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>filename[pos]=_char;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>while</span>(_char!='\0')<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>{<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>pos++;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>_char=(<span style='color:blue'>char</span>)fgetc(fin);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>filename[pos]=_char;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>filename[pos]='\0';<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stdout,&quot;source
+file name = %s\n\n&quot;,filename);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//압축된 파일의 크기를 알아온다.<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fseek(fin,0,SEEK_END);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>unsigned</span> <span style='color:blue'>long</span>
+compressedSize=ftell(fin) - <span style='color:blue'>sizeof</span>(GZIPHEADER) <o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>-
+( strlen(filename)+1 ) - <span style='color:blue'>sizeof</span>(<span style='color:blue'>int</span>)*2;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stdout,&quot;compressed
+file size = %d\n\n&quot;,compressedSize);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//원본 파일의 크기를 알아온다.<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='text-indent:40.0pt;mso-pagination:none;mso-layout-grid-align:
+none;text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:blue'>unsigned</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+<span style='color:blue'>long</span> orgSize=0;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fseek(fin,0-<span style='color:blue'>sizeof</span>(<span style='color:blue'>int</span>),SEEK_END);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fread(&amp;orgSize,<span style='color:blue'>sizeof</span>(<span style='color:blue'>int</span>),1,fin);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stdout,&quot;original
+file size = %d\n\n&quot;,orgSize);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//압축되어 있는 파일을 메모리로 가져온다.<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fseek(fin,+(
+<span style='color:blue'>sizeof</span>(GZIPHEADER)+(strlen(filename)+1)
+),SEEK_SET);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>char</span> *compressedData=<span style='color:blue'>new</span>
+<span style='color:blue'>char</span>[compressedSize];<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fread(compressedData,compressedSize,1,fin);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>char</span> *orgData=<span style='color:blue'>new</span> <span style='color:blue'>char</span>[orgSize];<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>orgData[0]='\0';<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//압축을 하기 위한 환경 설정<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>INBUFSIZE=compressedSize;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='text-indent:40.0pt;mso-pagination:none;mso-layout-grid-align:
+none;text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>OUTBUFSIZE=orgSize;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='text-indent:40.0pt;mso-char-indent-count:4.0;
+mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'>inbuf = (<span style='color:blue'>unsigned</span>
+<span style='color:blue'>char</span> *)malloc(INBUFSIZE);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='text-indent:40.0pt;mso-char-indent-count:4.0;
+mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'>outbuf = (<span style='color:blue'>unsigned</span>
+<span style='color:blue'>char</span> *)malloc(OUTBUFSIZE);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='text-indent:40.0pt;mso-char-indent-count:4.0;
+mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'>inbuf=(<span style='color:blue'>unsigned</span>
+<span style='color:blue'>char</span>*)compressedData;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='text-indent:40.0pt;mso-pagination:none;mso-layout-grid-align:
+none;text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:green'>//테스트를 위해 일단 outbuf에 </span><span lang="EN-US" style='font-size:
+10.0pt;font-family:"Times New Roman";mso-ascii-font-family:돋움체;mso-fareast-font-family:
+돋움체;color:green'>“</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+color:green'>garbage</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+"Times New Roman";mso-ascii-font-family:돋움체;mso-fareast-font-family:돋움체;
+color:green'>”</span><span style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-bidi-font-family:"Times New Roman";color:green'>라는 문자열을 넣었다<span lang="EN-US">.<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='margin-left:40.0pt;mso-pagination:none;mso-layout-grid-align:
+none;text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>strcpy((<span style='color:blue'>char</span>*)outbuf, &quot;garbage&quot;);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp; </span><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp; </span>z.zalloc
+= Z_NULL;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp; </span><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp; </span>z.zfree
+= Z_NULL;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp; </span>z.opaque = Z_NULL;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp; </span>z.next_in<span style='mso-spacerun:yes'>&nbsp;
+</span>= inbuf;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp; </span>z.avail_in = 0;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp; </span>z.next_out = outbuf;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//GZIP 형식에서는 window bit값이 </span></span><span lang="EN-US" style='font-size:10.0pt;font-family:"Times New Roman";mso-ascii-font-family:
+돋움체;mso-fareast-font-family:돋움체;color:green'>&#8211;</span><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman";color:green'>MAX_WBITS이다.<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='text-indent:40.0pt;mso-char-indent-count:4.0;
+mso-pagination:none;mso-layout-grid-align:none;text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman";color:blue'>int</span><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-bidi-font-family:"Times New Roman"'> err =
+inflateInit2(&amp;z,-(MAX_WBITS));<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//복원한다.<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>while</span> (z.total_out
+&lt; orgSize &amp;&amp; z.total_in &lt; compressedSize) {<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>z.avail_in
+= z.avail_out = 4096; <span style='color:green'>/* force small buffers */<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>err
+= inflate(&amp;z, Z_NO_FLUSH);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>if</span> (err == Z_STREAM_END) <span style='color:blue'>break</span>;<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>if</span> (err != Z_OK) {<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,
+&quot;inflate error: %d\n&quot;, err);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);
+<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//복원을 끝낸다.<o:p></o:p></span></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp; </span>err = inflateEnd(&amp;z);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>if</span> (err != Z_OK) { <o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,
+&quot;inflateEnd error: %d\n&quot;, err);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+			<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp; </span>} <o:p></o:p></span></p>
+
+			<p style='margin:0cm;margin-bottom:.0001pt;text-align:justify;text-justify:
+inter-ideograph;line-height:15.75pt'><span lang="EN-US" style='font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:
+"Times New Roman"'>}</span><span lang="EN-US" style='font-size:10.0pt;mso-fareast-font-family:
+한컴바탕;mso-bidi-font-family:한컴바탕;color:black'><o:p></o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US" style='color:black'><o:p>&nbsp;</o:p></span></p>
+
+		</div>
+
+		<!-- Document End -->
+		
+<!-- 구글 로그분석코드 시작 -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-64652-1";
+urchinTracker();
+</script>
+<!-- 구글 로그분석코드 완료 -->
+	</body>
+
+</html>

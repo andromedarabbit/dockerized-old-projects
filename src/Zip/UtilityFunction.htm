@@ -1,0 +1,2040 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<title>Zlib Utility Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="zlib functions">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 10">
+<meta name=Originator content="Microsoft Word 10">
+<link rel=File-List href="UtilityFunction.files/filelist.xml">
+<title>Function list </title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Sophie Marceau</o:Author>
+  <o:LastAuthor>Sophie Marceau</o:LastAuthor>
+  <o:Revision>153</o:Revision>
+  <o:TotalTime>178</o:TotalTime>
+  <o:Created>2003-07-08T05:16:00Z</o:Created>
+  <o:LastSaved>2003-07-11T03:05:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>2273</o:Words>
+  <o:Characters>12962</o:Characters>
+  <o:Company>KAIST</o:Company>
+  <o:Lines>108</o:Lines>
+  <o:Paragraphs>30</o:Paragraphs>
+  <o:CharactersWithSpaces>15205</o:CharactersWithSpaces>
+  <o:Version>10.4219</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:바탕;
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-alt:Batang;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:굴림;
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-alt:Gulim;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@바탕";
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@굴림";
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:돋움체;
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@돋움체";
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:none;
+	text-autospace:none;
+	word-break:break-hangul;
+	font-size:10.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:바탕;
+	mso-hansi-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	color:windowtext;
+	mso-font-kerning:1.0pt;}
+h3
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	mso-outline-level:3;
+	font-size:13.5pt;
+	font-family:굴림;
+	mso-bidi-font-family:굴림;
+	color:black;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{color:red;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:굴림;
+	mso-bidi-font-family:굴림;
+	color:black;}
+ /* Page Definitions */
+ @page
+	{mso-page-border-surround-header:no;
+	mso-page-border-surround-footer:no;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:99.25pt 3.0cm 3.0cm 3.0cm;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;
+	layout-grid:18.0pt;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:280192502;
+	mso-list-template-ids:-1129543814;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1
+	{mso-list-id:1043677871;
+	mso-list-template-ids:-680502492;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:36.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"표준 표";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+</style>
+<![endif]-->
+</head>
+
+<body lang=KO link=red vlink=purple style='tab-interval:40.0pt'>
+
+<div class=Section1 style='layout-grid:18.0pt'>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;text-align:left;mso-pagination:widow-orphan;mso-outline-level:3;
+text-autospace:ideograph-other;word-break:keep-all'><b><span lang=EN-US
+style='font-size:14.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:blue;
+mso-font-kerning:0pt'><a href="Index.htm"><span style='color:blue'>HOME</span></a></span></b><b><span
+lang=EN-US style='font-size:14.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> &gt; Zlib Utility Function Manual<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;text-align:left;mso-pagination:widow-orphan;mso-outline-level:3;
+text-autospace:ideograph-other;word-break:keep-all'><b><span lang=EN-US
+style='font-size:14.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='font-size:20.0pt;mso-font-kerning:0pt'>Zlib Utility Function Manual<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt;mso-font-kerning:
+0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt;mso-font-kerning:
+0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;text-align:left;mso-pagination:widow-orphan;text-autospace:ideograph-other;
+word-break:keep-all'><b><span lang=EN-US style='font-size:14.0pt;font-family:
+굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>Function list <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:18.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><span lang=EN-US style='font-size:13.5pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:blue;mso-font-kerning:0pt;
+mso-bidi-font-weight:bold'>typedef unsigned char Bytef;<br>
+typedef unsigned long uLong;<br>
+typedef void *voidp;<br>
+</span><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>typedef voidp gzFile;<br>
+</span><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;</span></span><span lang=EN-US style='font-size:
+13.5pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:
+0pt;mso-bidi-font-weight:bold'><span style='mso-spacerun:yes'>&nbsp;</span></span><span
+lang=EN-US style='font-size:13.5pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:blue;mso-font-kerning:0pt;mso-bidi-font-weight:bold'><o:p></o:p></span></p>
+
+<ul type=disc>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#compress">compress</a>
+     (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#compress2">compress2</a>
+     (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen, int
+     level); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#uncompress">uncompress</a>
+     (Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>gzFile <a href="UtilityFunction.htm#gzopen">gzopen</a>
+     (const char *path, const char *mode); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>gzFile <a href="UtilityFunction.htm#gzdopen">gzdopen</a>
+     (int fd, const char *mode); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzsetparams">gzsetparams</a>
+     (gzFile file, int level, int strategy); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzread">gzread</a>
+     (gzFile file, voidp buf, unsigned len); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzwrite">gzwrite</a>
+     (gzFile file, const voidp buf, unsigned len); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int VA <a href="UtilityFunction.htm#gzprintf">gzprintf</a>
+     (gzFile file, const char *format, ...); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzputs">gzputs</a>
+     (gzFile file, const char *s); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>char * <a href="UtilityFunction.htm#gzgets">gzgets</a>
+     (gzFile file, char *buf, int len); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzputc">gzputc</a>
+     (gzFile file, int c); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzgetc">gzgetc</a>
+     (gzFile file); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzflush">gzflush</a>
+     (gzFile file, int flush); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>z_off_t <a href="UtilityFunction.htm#gzseek">gzseek</a>
+     (gzFile file, z_off_t offset, int whence); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>z_off_t <a href="UtilityFunction.htm#gztell">gztell</a>
+     (gzFile file); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzrewind">gzrewind</a>
+     (gzFile file); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzeof">gzeof</a>
+     (gzFile file); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>int <a href="UtilityFunction.htm#gzclose">gzclose</a>
+     (gzFile file); <o:p></o:p></span></li>
+ <li class=MsoNormal style='color:black;mso-margin-top-alt:auto;mso-margin-bottom-alt:
+     auto;text-align:left;mso-pagination:widow-orphan;mso-list:l1 level1 lfo3;
+     tab-stops:list 36.0pt;text-autospace:ideograph-other;word-break:keep-all'><span
+     lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+     굴림;mso-font-kerning:0pt'>const char * <a href="UtilityFunction.htm#gzerror">gzerror</a>
+     (gzFile file, int *errnum); <br>
+     <br style='mso-special-character:line-break'>
+     <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+     <![endif]><o:p></o:p></span></li>
+</ul>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;text-align:left;mso-pagination:widow-orphan;mso-outline-level:3;
+text-autospace:ideograph-other;word-break:keep-all'><b><span lang=EN-US
+style='font-size:14.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'>Function description &#8211; <a href="Example.zip">Visual C++
+6.0용 예제 소스 파일 링크</a><o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=compress>compress</a> (Bytef
+*dest, uLongf *destLen, const Bytef *source, uLong sourceLen);</span></b><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Compresses the source buffer into the
+destination buffer. sourceLen is the byte length of the source buffer. </span><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:red;mso-font-kerning:0pt'>Upon entry, destLen is the total size of the
+destination buffer, which must be at least 0.1% larger than sourceLen plus 12
+bytes. </span><span lang=EN-US style='font-size:12.0pt;font-family:굴림;
+mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>Upon exit, destLen is
+the actual size of the compressed buffer. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>This
+function can be used to </span><u><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'>compress</span></u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> a whole file at once if the input file is
+mmap'ed.<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>(Error Return)<br>
+</span></b><u><span lang=EN-US style='font-size:12.0pt;font-family:굴림;
+mso-bidi-font-family:굴림;mso-font-kerning:0pt'>Z_OK</span></u><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'> if success <br>
+</span><u><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;mso-font-kerning:0pt'>Z_MEM_ERROR</span></u><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'> if there was not enough memory<br>
+</span><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;mso-font-kerning:0pt'><a
+href="http://www.gzip.org/zlib/manual.html#Z_BUF_ERROR#Z_BUF_ERROR"><span
+style='color:windowtext'>Z_BUF_ERROR</span></a><span style='color:black'> if
+there was not enough room in the output buffer. <br>
+<br>
+<b style='mso-bidi-font-weight:normal'>(예제)</b><br>
+</span></span><span lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:
+돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'>unsigned
+char*<span style='color:green'> </span>inbuf=<span style='color:blue'>new</span>
+<span style='color:blue'>unsigned</span> <span style='color:blue'>char</span>[1000];<br>
+strcpy((<span style='color:blue'>char</span>*)inbuf,&quot;Is good?&quot;);<br>
+unsigned int INBUFSIZE=strlen((<span style='color:blue'>char</span>*)inbuf)+1;</span><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><br>
+<br>
+</span><span lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";color:green;mso-font-kerning:0pt'>//Integer의
+반올림 문제 때문에 1을 더했다. <br>
+</span><span lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'>unsigned int<span
+style='color:green'> </span>OUTBUFSIZE=(<span style='color:blue'>unsigned</span>
+<span style='color:blue'>long</span>)1.001*(INBUFSIZE+12) + 1;<br>
+unsigned char* outbuf=<span style='color:blue'>new</span> <span
+style='color:blue'>unsigned</span> <span style='color:blue'>char</span>[OUTBUFSIZE];</span><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:green;mso-font-kerning:0pt'>//<a href="Knowledge.html#CompressionRate">Compression
+Level</a>은 링크를 참조하라.</span><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:blue;mso-font-kerning:0pt'>int</span><span lang=EN-US style='mso-bidi-font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'> err=compress(outbuf, &amp;OUTBUFSIZE, inbuf, INBUFSIZE);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:blue;mso-font-kerning:0pt'>if</span><span lang=EN-US style='mso-bidi-font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'>( err==Z_OK ){<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:76.0pt;text-align:left;
+text-indent:4.0pt;mso-layout-grid-align:none;word-break:keep-all'><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>fprintf(stderr,&quot;compress함수로 압축했습니다.\n\n&quot;);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'>}<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:blue;mso-font-kerning:0pt'>else</span><span lang=EN-US style='mso-bidi-font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'>{<span style='mso-tab-count:1'>&nbsp;&nbsp; </span><span style='color:
+green'>// 압축에 실패한 경우</span><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,&quot;압축에
+실패했습니다.\n&quot;);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>// 반환된 에러 메시지를 출력한다.<o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='margin-left:40.0pt;text-align:left;
+text-indent:40.0pt;mso-layout-grid-align:none;word-break:keep-all'><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>fprintf(stderr,&quot;Error code =
+%d\n&quot;,err);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:40.0pt;text-align:left;
+text-indent:40.0pt;mso-layout-grid-align:none;word-break:keep-all'><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>exit(1);<br>
+}<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='font-size:12.0pt;font-family:
+굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=compress2>compress2</a> (Bytef
+*dest, uLongf *destLen, const Bytef *source, uLong sourceLen, <a
+href="Knowledge.html#CompressionRate">int level</a>);</span></b><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Compresses the source buffer into the
+destination buffer. sourceLen is the byte length of the source buffer. </span><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:red;mso-font-kerning:0pt'>Upon entry, destLen is the total size of the
+destination buffer, which must be at least 0.1% larger than sourceLen plus 12
+bytes.</span><span lang=EN-US style='font-size:12.0pt;font-family:굴림;
+mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'> Upon exit, destLen
+is the actual size of the compressed buffer. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'>Z_OK</span></u><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'> if success<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'>Z_MEM_ERROR</span></u><span lang=EN-US style='font-size:
+12.0pt;font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'> if there
+was not enough memory<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'>Z_BUF_ERROR</span></u><span lang=EN-US style='font-size:
+12.0pt;font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'> if there
+was not enough room in the output buffer<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'>Z_STREAM_ERROR</span></u><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:
+0pt'> if the level parameter is invalid. <br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>(예제)<br>
+</span></b><span lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";color:green;mso-font-kerning:0pt'>//Integer의
+반올림 문제 때문에 1을 더했다. <br>
+unsigned char* </span><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'>inbuf=<span
+style='color:blue'>new</span> <span style='color:blue'>unsigned</span> <span
+style='color:blue'>char</span>[1000];<br>
+strcpy((<span style='color:blue'>char</span>*)inbuf,&quot;Is good?&quot;);<br>
+unsigned int INBUFSIZE=strlen((<span style='color:blue'>char</span>*)inbuf)+1;<span
+style='color:green'><br>
+<br>
+</span>unsigned<span style='color:green'> int </span>OUTBUFSIZE=(<span
+style='color:blue'>unsigned</span> <span style='color:blue'>long</span>)1.001*(INBUFSIZE+12)
++ 1;<br>
+unsigned char* outbuf=<span style='color:blue'>new</span> <span
+style='color:blue'>unsigned</span> <span style='color:blue'>char</span>[OUTBUFSIZE];<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>//<a href="Knowledge.html#CompressionRate">Compression
+Level</a>은 링크를 참조하라.<o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:blue'>int</span> err=compress(outbuf, &amp;OUTBUFSIZE, inbuf,
+INBUFSIZE, <a href="Knowledge.html#CompressionRate">Z_DEFAULT_COMPRESSION</a>);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>//<a
+href="Knowledge.html#ErrorCode">Error code</a>에 대해 알고 싶다면 링크를 참조하라.<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:blue;mso-font-kerning:0pt'>if</span><span lang=EN-US style='mso-bidi-font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'>( err==Z_OK ){<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,&quot;compress함수로
+압축했습니다.\n\n&quot;);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:blue'>else</span>{<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,&quot;압축에
+실패했습니다.\n&quot;);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:40.0pt;text-align:left;
+text-indent:40.0pt;mso-layout-grid-align:none;word-break:keep-all'><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>fprintf(stderr,&quot;Error code =
+%d\n&quot;,err);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:40.0pt;text-align:left;
+text-indent:40.0pt;mso-layout-grid-align:none;word-break:keep-all'><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>exit(1);<br>
+}</span><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:blue;
+mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=uncompress>uncompress</a>
+(Bytef *dest, uLongf *destLen, const Bytef *source, uLong sourceLen);</span></b><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Decompresses the source buffer into the
+destination buffer. sourceLen is the byte length of the source buffer. Upon
+entry, destLen is the total size of the destination buffer, which must be large
+enough to hold the entire uncompressed data. (The size of the uncompressed data
+must have been saved previously by the compressor and transmitted to the decompressor
+by some mechanism outside the scope of this compression library.) Upon exit,
+destLen is the actual size of the compressed buffer. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>This function can be used to decompress a
+whole file at once if the input file is mmap'ed. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'>Z_OK</span></u><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'> if success<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'>Z_MEM_ERROR</span></u><span lang=EN-US style='font-size:
+12.0pt;font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'> if there
+was not enough memory<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'>Z_BUF_ERROR</span></u><span lang=EN-US style='font-size:
+12.0pt;font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'> if there
+was not enough room in the output buffer<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'>Z_DATA_ERROR</span></u><span lang=EN-US style='font-size:
+12.0pt;font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'> if the
+input data was corrupted. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><br>
+<b style='mso-bidi-font-weight:normal'>(예제) &#8211; compress 함수의 예제와 연결된다.<br>
+</b></span><span lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'> </span>int
+err=uncompress(inbuf,&amp;INBUFSIZE,outbuf,OUTBUFSIZE);</span><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:
+0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:blue'>if</span>( err==Z_OK ){<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,&quot;uncompress함수로
+압축 해제된 내용은 다음과 같다.\n&quot;);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,&quot;%s\n\n&quot;,inbuf);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>} <span
+style='color:blue'>else</span>{<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,&quot;압축
+해제에 실패했습니다.\n&quot;);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,&quot;Error
+code = %d\n&quot;,err);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'>}<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:40.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'>(성공했을 경우의 출력 결과)</span></b><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'><br>
+uncompress함수로 압축 해제된 내용은 다음과 같다.<br>
+Is good?</span><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'><br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'><span style='mso-spacerun:yes'>&nbsp;</span><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>gzFile <a name=gzopen>gzopen</a> (const
+char *path, const char *mode);</span></b><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Opens a gzip (.gz) file for reading or
+writing. The mode parameter is as in fopen (&quot;rb&quot; or &quot;wb&quot;)
+but can also include a compression level (&quot;wb9&quot;) or a strategy: 'f'
+for filtered data as in &quot;wb6f&quot;, 'h' for Huffman only compression as
+in &quot;wb1h&quot;. (Click <a href="Knowledge.html#StrategyParameter">this
+link</a> for more information about the strategy parameter.) <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:red;mso-font-kerning:0pt'>gzopen can be used to read a file which is not
+in gzip format ;</span><span lang=EN-US style='font-size:12.0pt;font-family:
+굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'> in this case <a
+href="UtilityFunction.htm#gzread">gzread</a> will directly read from the file
+without decompression. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:red;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'>(Error Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>NULL if the file could not be opened or if
+there was insufficient memory to allocate the (de)compression <a
+href="Knowledge.html#ErrorCode">state</a>; <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>errno can be checked to distinguish the two
+cases (if errno is zero, the zlib error is <a href="Knowledge.html#ErrorCode">Z_MEM_ERROR</a>).
+<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'>(예제)</span></b><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'><br>
+</span><span lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:굴림;
+mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>int err;</span><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:blue;mso-font-kerning:0pt'>char</span><span lang=EN-US style='mso-bidi-font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'>* filename = <span style='color:blue'>new</span> <span style='color:blue'>char</span>[100];<br>
+strcpy(filename,&quot;gzip.gz&quot;);<br>
+<br>
+<span style='color:green'>//The mode parameter is as in fopen (&quot;rb&quot;
+or &quot;wb&quot;) <br>
+gzFile </span>file = gzopen(filename, &quot;rb&quot;);<br>
+<span style='color:blue'>if</span> (file == NULL){<span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>//gzip 파일 열기에 실패한 경우</span><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:76.0pt;text-align:left;
+text-indent:4.0pt;mso-layout-grid-align:none;word-break:keep-all'><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>fprintf(stderr,
+&quot;gzopen(%s,\&quot;wb\&quot;) error:
+%s\n&quot;,filename,gzerror(file,&amp;err));<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'>}<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>gzFile <a name=gzdopen>gzdopen</a> (int fd,
+const char *mode);</span></b><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>gzdopen () associates a gzFile with the file
+descriptor fd. File descriptors are obtained from calls like open, dup, creat,
+pipe or fileno (in the file has been previously opened with fopen). The mode
+parameter is as in <a href="UtilityFunction.htm#gzopen">gzopen</a>. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>The next call of <a
+href="UtilityFunction.htm#gzclose">gzclose</a> on the returned gzFile will also
+close the file descriptor fd, just like fclose(fdopen(fd), mode) closes the
+file descriptor fd. If you want to keep fd open, use gzdopne(dup(fd), mode). <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>NULL if there was insufficient memory to
+allocate the (de)compression <a href="Knowledge.html#ErrorCode">state</a>. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzsetparams>gzsetparams</a>
+(gzFile file, <a href="Knowledge.html#CompressionRate">int level</a>, <a
+href="Knowledge.html#StrategyParameter">int strategy</a>);</span></b><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Dynamically update the compression <a
+href="Knowledge.html#CompressionRate">level</a> or<a
+href="Knowledge.html#StrategyParameter"> strategy</a>. See the description of <a
+href="AdvancedFunctions.html#deflateInit2">deflateInit2</a> for the meaning of
+these parameters. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><u><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'>Z_OK</span></u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'> if success <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><u><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'>Z_STREAM_ERROR</span></u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> if the file was not opened for writing. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzread>gzread</a> (gzFile file,
+voidp buf, unsigned len);</span></b><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Reads the given number of uncompressed bytes
+from the compressed file. If the input file was not in gzip format, gzread
+copies the given number of bytes into the buffer. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>The number of uncompressed bytes actually</span><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'> read <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:red;mso-font-kerning:0pt'>0 for end of file, -1 for error</span><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'>(예제)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>unsigned int OUTBUFSIZE;<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>unsigned char* outbuf;</span><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'><br>
+</span></b><span lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;
+mso-hansi-font-family:"Times New Roman";color:green;mso-font-kerning:0pt'>//바이너리
+파일을 읽기 모드로 연다.<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>FILE*
+fin=fopen(filename,&quot;rb&quot;);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:blue'>if</span>( fin==NULL ){ <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,
+&quot;fopen(%s,\&quot;rb\&quot;) error! \n\n&quot;,filename);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:
+1'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>//우선 원본 파일의 사이즈를 알아낸다.<o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>//gzseek()함수에서 SEEK_END가 지원되지 않기 때문에 여기서는 fopen을 사용했다.<o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>//gzip의 파일 포맷을 알고 있다면, <a href="GzipFileFormat.html">여기</a>를
+클릭하라.<o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fseek(fin,-4,SEEK_END);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fread(&amp;OUTBUFSIZE,<span
+style='color:blue'>sizeof</span>(<span style='color:blue'>int</span>),1,fin);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stdout,&quot;Original
+file size = %d\n&quot;,OUTBUFSIZE);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>outbuf=<span
+style='color:blue'>new</span> <span style='color:blue'>char</span>[OUTBUFSIZE];<br>
+</span><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'><br>
+<span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></b><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>gzFile </span><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'>file = gzopen(filename, &quot;rb&quot;); <span
+style='color:green'>//읽기 모드로 gzip파일을 연다.</span><br>
+<span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:blue'>if</span> (file == NULL){<span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>//gzip 파일 열기에 실패한 경우</span><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,
+&quot;gzopen(%s,\&quot;wb\&quot;) error: \n\n&quot;,filename,gzerror(file,&amp;err));<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'>}<br>
+<br>
+<span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>/* gzread()함수 - gzip파일을 압축 해제한다. */</span><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:blue;mso-font-kerning:0pt'>int</span><span lang=EN-US style='mso-bidi-font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'> _OUTBUFSIZE = gzread(file, outbuf, (<span style='color:blue'>unsigned</span>)OUTBUFSIZE);<br
+style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:40.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:green;mso-font-kerning:0pt'>// gzip파일에 기록된 원본 파일 사이즈 기록이 정확한지 확인해 본다.</span><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'><br>
+<span style='color:blue'>if</span> (OUTBUFSIZE != _OUTBUFSIZE) {<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>fprintf(stderr,&quot;gzread(file,outbuf,(unsigned)OUTBUFSIZE) err:
+%s\n&quot;, gzerror(file, &amp;err));<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:40.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'>}<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:40.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:40.0pt;text-align:left;
+mso-layout-grid-align:none;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzwrite>gzwrite</a> (gzFile
+file, const voidp buf, unsigned len);</span></b><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Writes the given number of uncompressed bytes
+into the compressed file. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>The number of uncompressed bytes actually
+written <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:red;mso-font-kerning:0pt'>0 in case of error.</span><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'> <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int VA <a name=gzprintf>gzprintf</a>
+(gzFile file, const char *format, ...);</span></b><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Converts, formats, and writes the args to the
+compressed file under control of the format string, as in fprintf. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>The number of uncompressed bytes actually
+written <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:red;mso-font-kerning:0pt'>(0 in case of error).</span><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'> <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(예제) </span></b><span
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'>&#8211; <span lang=EN-US><a href="UtilityFunction.htm#gzopen">gzopen</a>
+함수 예제에서 이어지는 내용이다.<o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:36.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:blue;mso-font-kerning:0pt'>if</span><span lang=EN-US style='mso-bidi-font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'> (gzprintf(file, &quot; %s&quot;, &quot;Keys&quot;) == 0 ){<span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp; </span>//실패한 경우<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,
+&quot;gzprintf(file, \&quot; %s\&quot;) error:
+\n\n&quot;,&quot;Keys&quot;,gzerror(file,&amp;err));<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'><span style='mso-tab-count:1'> </span>}<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzputs>gzputs</a> (gzFile file,
+const char *s);</span></b><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Writes the given null-terminated string to
+the compressed file, excluding the terminating null character. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>The number of characters written<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>-1 in case of error. <br style='mso-special-character:
+line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(예제) </span></b><span
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'>&#8211; <span lang=EN-US><a href="UtilityFunction.htm#gzopen">gzopen</a>
+함수 예제에서 이어지는 내용이다.<o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:36.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:blue;mso-font-kerning:0pt'>if</span><span lang=EN-US style='mso-bidi-font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'> (gzputs(file, &quot;licia&quot;) == -1 ){ <span style='color:green'>//실패한
+경우</span><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:36.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span>fprintf(stderr, &quot;gzputs(file,\&quot;licia\&quot;) err:
+%s\n\n&quot;, gzerror(file, &amp;err));<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'>}<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>char * <a name=gzgets>gzgets</a> (gzFile
+file, char *buf, int len);</span></b><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Reads bytes from the compressed file until
+len-1 characters are read, or a newline character is read and transferred to
+buf, or an end-of-file condition is encountered. The string is then terminated
+with a null character. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>(Error Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>buf<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><u><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'>Z_NULL</span></u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> in case of error.<br style='mso-special-character:
+line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;</span><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzputc>gzputc</a> (gzFile file,
+int c);</span></b><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Writes c, converted to an unsigned char, into
+the compressed file. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>the value that was written<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>-1 in case of error. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzgetc>gzgetc</a> (gzFile
+file);</span></b><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Reads one byte from the compressed file. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>this byte <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>-1 in case of end of file or error. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(예제)</span></b><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> &#8211; <a href="UtilityFunction.htm#gzeof">gzeof</a>
+의 예제를 보라.<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzflush>gzflush</a> (gzFile
+file, int flush);</span></b><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Flushes all pending output into the compressed
+file. The parameter flush is as in the <a
+href="http://www.gzip.org/zlib/manual.html#deflate#deflate">deflate</a>()
+function. The return value is the zlib error number (see function <a
+href="UtilityFunction.htm#gzerror">gzerror</a> below). <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><a href="UtilityFunction.htm#gzflush">gzflush</a>
+should be called only when strictly necessary because it can degrade
+compression. <br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(Error
+Return) <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+mso-font-kerning:0pt'>Z_OK</span></u><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'> if the flush
+parameter is <u>Z_FINISH</u><span style='color:black'> and all output could be
+flushed. <o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>z_off_t <a name=gzseek>gzseek</a> (gzFile
+file, z_off_t offset, int whence);</span></b><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Sets the starting position for the next <a
+href="UtilityFunction.htm#gzread">gzread</a> or <a
+href="UtilityFunction.htm#gzwrite">gzwrite</a> on the given compressed file.
+The offset represents a number of bytes in the uncompressed data stream. The
+whence parameter is defined as in lseek(2); </span><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:blue;
+mso-font-kerning:0pt'>the value SEEK_END is not supported. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:blue;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>If the file is opened for reading, this
+function is emulated but can be extremely slow. If the file is opened for writing,
+only forward seeks are supported ; <a href="UtilityFunction.htm#gzseek">gzseek</a>
+then compresses a sequence of zeroes up to the new starting position. </span><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:blue;mso-font-kerning:0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:blue;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'>(Error Return)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>the resulting offset location as measured in
+bytes from the beginning of the uncompressed stream<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>-1 in case of error, in particular if the
+file is opened for writing and the new starting position would be before the
+current position. <br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:blue;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzrewind>gzrewind</a> (gzFile
+file);</span></b><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Rewinds the given file. This function is
+supported only for reading. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>gzrewind
+(file) is equivalent to (int)<a href="UtilityFunction.htm#gzseek">gzseek</a>(file,
+0L, SEEK_SET)<br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='mso-margin-top-alt:auto;mso-margin-bottom-alt:
+auto;margin-left:36.0pt;text-align:left;mso-pagination:widow-orphan;text-autospace:
+ideograph-other;word-break:keep-all'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>z_off_t <a name=gztell>gztell</a> (gzFile
+file);</span></b><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Returns the starting position for the next <a
+href="UtilityFunction.htm#gzread">gzread</a> or <a
+href="UtilityFunction.htm#gzwrite">gzwrite</a> on the given compressed file. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>This position represents a number of bytes in
+the uncompressed data stream. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><br>
+gztell(file) is equivalent to <a href="UtilityFunction.htm#gzseek">gzseek</a>(file,
+0L, SEEK_CUR) <br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzeof>gzeof</a> (gzFile file);</span></b><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Returns 1 when EOF has previously been
+detected reading the given input stream, otherwise zero. <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'>(예제)<o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:blue'>char</span> _str[2];<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'><span style='mso-tab-count:1'> </span>_str[1]='\0';<br
+style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>gzrewind(file);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><b
+style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:36.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+color:blue;mso-font-kerning:0pt'>while</span><span lang=EN-US style='mso-bidi-font-size:
+10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'>( gzeof(file)==0 )<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:36.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'>{<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>/* int gzgetc (gzFile file) */</span> <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>//Reads one byte from the compressed file. <o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span
+style='color:green'>//gzgetc returns this byte or -1 in case of end of file or
+error. <o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>_str[0]=gzgetc(file);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-layout-grid-align:
+none;word-break:keep-all'><span lang=EN-US style='mso-bidi-font-size:10.0pt;
+font-family:돋움체;mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'><span
+style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>strcat(outbuf,_str);<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'>}<o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;text-indent:40.0pt;
+mso-layout-grid-align:none;word-break:keep-all'><span lang=EN-US
+style='mso-bidi-font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>int <a name=gzclose>gzclose</a> (gzFile
+file);</span></b><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;color:black;
+mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Flushes all pending output if necessary,
+closes the compressed file and deallocates all the (de)compression <a
+href="Knowledge.html#ErrorCode">state</a>. The return value is the zlib error
+number (see function <a href="UtilityFunction.htm#gzerror">gzerror</a> below). <o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan;
+text-autospace:ideograph-other;word-break:keep-all'><b style='mso-bidi-font-weight:
+normal'><span lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:
+굴림;color:blue;mso-font-kerning:0pt'>const char * <a name=gzerror>gzerror</a> (gzFile
+file, int *errnum);</span></b><b style='mso-bidi-font-weight:normal'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> <o:p></o:p></span></b></p>
+
+<p class=MsoNormal align=left style='margin-left:36.0pt;text-align:left;
+mso-pagination:widow-orphan;text-autospace:ideograph-other;word-break:keep-all'><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'>Returns the error message for the last error
+which occurred on the given compressed file. errnum is set to zlib error
+number. If an error occurred in the file system and not in the compression
+library, errnum is set to </span><u><span lang=EN-US style='font-size:12.0pt;
+font-family:굴림;mso-bidi-font-family:굴림;mso-font-kerning:0pt'>Z_ERRNO</span></u><span
+lang=EN-US style='font-size:12.0pt;font-family:굴림;mso-bidi-font-family:굴림;
+color:black;mso-font-kerning:0pt'> and the application may consult errno to get
+the exact error code. <o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='font-size:12.0pt'><span
+style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><b
+style='mso-bidi-font-weight:normal'>(예제)</b> </span><span lang=EN-US
+style='font-size:12.0pt;font-family:"Times New Roman";mso-ascii-font-family:
+바탕'>&#8211;</span><span lang=EN-US style='font-size:12.0pt'> <a
+href="UtilityFunction.htm#gzopen">gzopen</a>의 예제를 보라.<o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span lang=EN-US
+style='font-size:14.0pt'><o:p>&nbsp;</o:p></span></b></p>
+
+</div>
+
+
+<!-- 구글 로그분석코드 시작 -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-64652-1";
+urchinTracker();
+</script>
+<!-- 구글 로그분석코드 완료 -->
+</body>
+
+</html>

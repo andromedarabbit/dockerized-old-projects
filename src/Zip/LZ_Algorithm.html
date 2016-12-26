@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Zlib Library Manual</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="zlib Lempel-ZIv" />
+		
+		<style type="text/css" media="screen">
+		/* <![CDATA[ */
+		@import url(css/screen.css);
+		/**//*/@import "css/screen.css";/**/
+		/* ]]> */
+		</style>
+		<style type="text/css" media="print">
+		/* <![CDATA[ */
+		@import url(css/print.css);
+		/**//*/@import "css/print.css";/**/
+		/* ]]> */
+		</style>
+	</head>
+
+	<body>
+		<div id="wrap">
+			<div id="content">
+				<p><strong><a href="index.html">Home</a> &gt; <a href="ZlibAlgorithm.htm">Zib library에서 사용하는 알고리즘</a> &gt; Lempel-Ziv 알고리즘</strong></p>
+				<h1 id="header">Lempel-ZIv 알고리즘</h1>
+
+				<ol>
+				<li><h2>표현 방법</h2>
+					<p>Lumpel-ZIv로 데이터를 압축하면 다음과 같은 형태가 된다.</p>
+
+					<ul>
+					<li><p>원본 데이터: Blah blah b</p></li>
+					<li><p>압축 결과: Blah b[Distance=5,Length=5] (탈출문자)(거리)(길이)</p></li>
+					</ul>
+
+					<p>즉, 여기서부터 앞으로 5번째부터, 길이 5만큼 반복된다는 뜻이다. 그러므로 만약 Distance와 Length를 한 바이트로 표현한다면, 최대 255 이전의 데이터부터 255자까지 압축이 가능하다. </p>
+
+					<p>이 방법의 중요한 특징은 반복되는 문자열이 어떤 것인지에 관해 아무런 가정도 하지 않는 것이다. 이로 인해 더 강력하고 동적인 알고리즘이 될 수 있다. 처음에는 이 알고리즘의 구현이 효과가 없는 것처럼 보일 수도 있다. 한 가지 이유는 반복 문자열을 찾는 일이 심각한 오버헤드를 주게 될 듯이 보인다는 점이다. 그 다음으로 압축을 푸는 문제도 있다. 압축 알고리즘은 그 과정을 역으로 할 수 없다면 가치가 없다. </p>
+				</li>
+		
+				<li><h2>압축 해제 방법</h2>
+	
+					<p>압축된 문자열을 수신한다면, 특수 문자와 관련된 문자열이 무엇인지 알아내는 문제가 발생한다. 특수 문자가 나타내는 문자열이 나와 있는 특수 문자 테이블을 압축된 텍스트와 함께 전송하는 방법이 있다. 물론 이런 방식은 처음에는 압축의 가치를 부분적으로 떨어뜨린다. </p>
+
+					<p>일반적으로 반복되는 문자열을 식별하는 효과적인 방법이 있음이 밝혀졌다. 압축된 텍스트와 함께 특수 기호를 전송하지 않고서도 관련된 문자열을 결정할 수 있다.</p>
+
+					<p>압축 알고리즘은 다음의 핵심 개념에 기초하고 있다.</p>
+
+					<p><strong>&lt; Lempel-Ziv 압축 알고리즘&gt;</strong></p>
+
+					<pre class="codebox"><code>void compress(FILE* fin)
+{
+	initialize(code table);
+	buffer=string consisting of first character from the file.
+
+	while( (c=getc(fin))!=EOF )
+	{
+		_string=concat(buffer,c);
+		search for _string in the code table;
+
+		if found
+			buffer=_string;
+		else
+		{
+			send the code associated with buffer;
+			assgn a code to _string;
+			store both in the code table;
+			buffer=string consisting of one character c;
+		}
+	}
+	send the code associated with buffer;
+}</code></pre>
+					<p><strong>&lt; Lempel-Ziv 복원 알고리즘 &gt;</strong></p>
+
+					<pre class="codebox"><code>void decompress
+{
+	initialize(code table);
+	receive first code, call it prior;
+
+	pritnf the string associated with prior;
+
+	while(true)
+	{
+		receive code, call it current;
+		
+		if no code then break; 
+			search for current in the code table;
+		if not found
+		{
+			c=first character of string associated with prior;
+			_string = concat(string associated with prior, c);
+			assign a code to _string;
+			store both in the code table;
+			print _string;
+
+		}
+		else
+		{
+			c=first character of string associated with prior;
+			_string=concat(string associated with prior,c);
+			assign a code to _string;
+			store both in the code table;
+			print string associated with current;
+		}
+
+		prior=current;
+	}
+}</code></pre>
+
+					<ol style="list-style-type:upper-roman">
+					<li><p>텍스트 파일의 첫 부분인 각 문자에 하나의 코드를 할당하고 (압축 알고리즘 3행) 코드 표에 저장한다.</p></li>
+					<li><p>루프를 설치하고 파일로부터 한 번에 한 문자씩 읽어 들인다. 파일로부터 받은 문자들과 연쇄시켜 만들어진 버퍼 스트링 (초기에는 첫 문자 제 4행)을 이용할 것이다.</p></li>
+					<li><p>루프의 각 패스에서는 한 문자를 읽고 버퍼 스트링에 덧붙여 새로운 임시 스트링을 만든다. (제7행).</p>
+						<p>만약 그 임시 스트링을 전에 만났었다면(즉 코드 표에 있다면), 임시 스트링을 저장한다. (제10행).</p></li>
+					<li><p>만약 임시 문자 행이 코드 표에 없다면, 임시 스트링에 코드를 할당아여 코드와 스트링을 코드 표에 저장한다. (제14행). 버퍼에 저장된 스트링과 관련 코드를 전송한다. (제13행). 이 코드는 스트링의 압축된 등가치를 나타낸다. 끝으로 버퍼 스트링을 방금 읽어 들인 한 문자로 다시 초기화한다. (제15행). </p></li>
+					</ol>
+				</li>
+				<li><h2>압축 예제</h2>
+					<p>&lt;<a href="LZ_TABLE.html#표1" target="_blank">표1</a>, <a href="LZ_TABLE.html#표2" target="_blank">2</a>&gt;을 참고하며 다음의 설명을 읽도록…….</p>
+					
+					<p>문자열 <font color="blue">‘ABABABCBABABABCBABABABCBA’</font></p>
+
+					<p>처음에 코드 표에는 3개의 목록인 A, B, C와 각각에 관련된 코드 0,1,2만 있다. 알고리즘이 새 스트링을 코드 표에 추가할 때마다 추가되는 스트링에 대해 3에서 시작하여 연속되는 코드를 만들어 낸다고 하자. 각 과정을 따라 내려가면서 버퍼 스트링에 C가 덧붙여진 것이 임시 스트링이라는 것을 기억하자.</p>
+
+					<p>단계 1에서는 AB를 찾는 데에 실패하는 알고리즘이다. 버퍼 스트링 A에 대한 코드(0)을 보내고 AB(code=3)을 코드 표에 저장한다. 그리고 새로운 버퍼 스트링을 B로 정의 한다. </p>
+
+					<p>단계 2에서는 알고리즘으로 BA를 코드 표에서 찾는 데에 실패한다. B에 대한 코드인 1을 보내고 BA(code=4)를 코드 표에 저장한다. 새 버퍼 스트링을 A로 정의한다. </p>
+
+					<p>단계 3에서는 AB를 코드 표에서 찾고, 이번에는 성공한다. 아무 것도 보내지 않고 새 버퍼 스트링은 AB가 된다.</p>
+
+					<p>단계 4에서는 ABA를 코드 표에서 찾는데 실패한다. AB에 대한 코드인 3을 보내고 ABA(code=5)를 코드표에 저장한다. 새 버퍼 스트링을 A로 정의한다.</p>
+				</li>
+
+				<li><h2>복원 예제</h2>
+					<p>&lt;<a href="LZ_TABLE.html#표3">표3</a>&gt;을 참고하며 다음의 설명을 읽도록……</p>
+					
+					<p>모든 복원 알고리즘은 최초의 문자 코드 표 (앞의 경우에서는 코드 표가 A, B, C와 그 코드인 0,1,2로 되어 있었다.)와 입력된 코드 값으로 작업을 해야만 한다. 앞의 예에서는 복원해야 할 입력 데이터가 0 1 3 3 2 4 8 6 9 8 7 0 이었다. 이제 압축 알고리즘에 입력됐던 원래의 스트링과 같은 출력이 나오게 될 것이다. 복원 알고리즘의 진수는 이 제한된 정보에 기초하여 똑 같은 코드 표를 다시 만드는 능력에 있다.</p>
+
+					<p>처음에 하나의 코드를 받고 prior라고 부른다. (제4행). Prior와 관련된 스트링을 코드 표에서 찾아 인쇄한다. (제 5행). 이 경우 Prior=0이고 A를 인쇄한다. 그 다음에는 루프가 시작된다.</p>
+
+					<p>루프 패스 1에서는 현재의 코드인 1을 받는다. (제8행). 이 현재 코드는 코드 표에 있으므로 알고리즘은 19행에서 22행까지 실행한다. 임시 스트링/코드 쌍 (AB/3)을 코드 표에 저장하고 현재 코드와 관련된 스트링인 B를 인쇄한다. 압축에서처럼 코드 값은 3에서 시작하여 연속적으로 할당된다.</p>
+
+					<p>패스 2에서는 Prior 코드가 1이고 새로운 현재 코드는 3이 된다. 현재 코드는 표에 있다. 임시 스트링/코드 쌍(BA/4)를 코드 표에 저장한다. 현재 코드와 관련된 스트링인 AB를 인쇄 한다.</p>
+
+					<p>패스 3에서는 Prior 코드가 3이고 새로운 현재 코드는 다시 3이 된다. 현재 코드는 코드 표에 있다. 임시 스트링./코드 쌍(AB/4)를 코드 표에 저장하고 현재 코드와 관련된 스트링인 AB를 인쇄한다.</p>
+
+					<p>나머지 단계들도 비슷하다. 중요한 것은 코드 표가 구성되는 방법이다. 코드 표에 저장되는 내용을 압축 알고리즘이 코드 표에 저장한 내용과 비교하면, 코드 표가 같은 방식으로 만들어짐을 알 수 있다. 결과적으로 코드 표 룩업을 이용하여 같은 스트링을 만들고 코드를 복원한다. </p>
+				</li>
+				
+				<li><h2><a href="LZ_Example.html">예제 소스 보기</a></h2></li>
+				</ol>
+			</div>
+		</div>
+		
+		
+<!-- 구글 로그분석코드 시작 -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-64652-1";
+urchinTracker();
+</script>
+<!-- 구글 로그분석코드 완료 -->
+	</body>
+
+</html>

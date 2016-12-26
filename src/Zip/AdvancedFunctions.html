@@ -1,0 +1,698 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+
+	<head>
+		<title>Zlib Advanced Functions</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="zlib functions">
+		<meta name="ProgId" content="Word.Document">
+		<meta name="Generator" content="Microsoft Word 10">
+		<meta name="Originator" content="Microsoft Word 10">
+		
+		<link rel="File-List" href="AdvancedFunctions.files/filelist.xml">
+			<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Compatibility>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]-->
+			<style>
+				<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:바탕;
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-alt:Batang;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:굴림;
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-alt:Gulim;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@바탕";
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@굴림";
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:돋움체;
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@돋움체";
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:굴림;
+	mso-bidi-font-family:굴림;
+	color:windowtext;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:굴림;
+	mso-bidi-font-family:굴림;
+	color:black;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:99.25pt 3.0cm 3.0cm 3.0cm;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+			</style>
+		<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"표준 표";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";}
+table.MsoTableGrid
+	{mso-style-name:"표 구분선";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:굴림;}
+</style>
+<![endif]-->
+	</head>
+
+	<body lang="KO" link="blue" vlink="purple" style='tab-interval:40.0pt'>
+
+		<div class="Section1">
+
+			<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:16.0pt'><a href="Index.htm">HOME</a> &gt; Zlib Advanced
+Function Manual <o:p></o:p></span></b></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" align="center" style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span lang="EN-US" style='font-size:20.0pt'>Zlib Advanced Function Manual<o:p></o:p></span></b></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><a name="Introduction"></a><b style='mso-bidi-font-weight:
+normal'><span lang="EN-US" style='font-size:16.0pt'>Introduction <o:p></o:p></span></b></p>
+
+			<table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0" style='border-collapse:collapse;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+				<tr style='mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="852" valign="top" style='width:639.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal">기본적으로<span lang="EN-US"> Basic Function만을 이용하면 압축과 복원을 할 수 있다.
+  </span></p>
+						<p class="MsoNormal"><span lang="EN-US">Zlib library에서 제공하는 그 외의 Function은 단순히 사용자
+  편의를 위한 것이다. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal">다만<span lang="EN-US"> Basic Function에서 제공하는 Deflate 압축 알고리즘과
+  GZIP을 혼동해서는 안 된다.</span></p>
+						<p class="MsoNormal"><span lang="EN-US">GZIP은 Header, Compressed Data, 그리고
+  Trailer로 구성되어 있다.</span></p>
+						<p class="MsoNormal"><span lang="EN-US">Deflate 알고리즘은 이 중 Compressed Data를 생성하기 위한
+  것이다.</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span style='color:red'>주의<span lang="EN-US">!!!</span></span><span lang="EN-US"> GZIP 파일 포맷으로 압축 및 복원하기 위해서는 <a href="AdvancedFunctions.html">Advanced
+									Function</a>의 도움을 받아야 한다.</span></p>
+						<p class="MsoNormal">특히 <span lang="EN-US">Advanced Function 중 <a href="AdvancedFunctions.html#deflateInit2">
+									deflateInit2</a>와 <a href="AdvancedFunctions.html#inflateInit2">inflateInit2</a>함수에 주목하라.</span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0" style='margin-left:.45pt;border-collapse:collapse;mso-yfti-tbllook:480;
+ mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+				<tr style='mso-yfti-irow:0;height:26.55pt'>
+					<td width="887" colspan="2" valign="top" style='width:665.15pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:26.55pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:16.0pt'>Function List<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:1;height:17.6pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:17.6pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US"><o:p>&nbsp;</o:p></span></b></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:17.6pt'>
+						<p class="MsoNormal">여기서는 필수적인 함수에 대해서만 간단히 설명하겠다<span lang="EN-US">. </span></p>
+						<p class="MsoNormal">필수적인 함수는 붉은 색으로 표시되어 있다<span lang="EN-US">.</span></p>
+						<p class="MsoNormal">나머지 함수는 <span lang="EN-US">Zlib home site에서 제공하는 매뉴얼에 링크되어 있다.<o:p></o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US"><o:p>&nbsp;</o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:2;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:blue'>int </span><span lang="EN-US" style='color:red'>deflateInit2</span><span lang="EN-US" style='color:blue'> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm,
+  int level, int method, int windowBits, int memLevel, int strategy);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:3;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:blue'>int <a href="http://www.gzip.org/zlib/manual.html#deflateSetDictionary" target="_blank">deflateSetDictionary</a> (<a href="Knowledge.html#z_streamp">z_streamp</a>
+  strm, const Bytef *dictionary, uInt dictLength);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:4;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:blue'>int <a href="http://www.gzip.org/zlib/manual.html#deflateCopy" target="_blank">deflateCopy</a>
+  (<a href="Knowledge.html#z_streamp">z_streamp</a> dest, <a href="Knowledge.html#z_streamp">z_streamp</a> source);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:5;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:blue'>int <a href="http://www.gzip.org/zlib/manual.html#deflateReset" target="_blank">deflate
+									Reset</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:6;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:blue'>int <a href="http://www.gzip.org/zlib/manual.html#deflateParams" target="_blank">deflate
+									Params</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm, int level,
+  int strategy);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:7;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:blue'>int </span><span lang="EN-US" style='color:red'>inflateInit2</span><span lang="EN-US" style='color:blue'> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm,
+  int windowBits);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:8;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:blue'>int <a href="http://www.gzip.org/zlib/manual.html#inflateSetDictionary" target="_blank">inflateSetDictionary</a> (<a href="Knowledge.html#z_streamp">z_streamp</a>
+  strm, const Bytef *dictionary, uInt dictLength);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:9;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:blue'>int <a href="http://www.gzip.org/zlib/manual.html#inflateSync" target="_blank">inflateSync</a>
+  (<a href="Knowledge.html#z_streamp">z_streamp</a> strm);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:10;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:blue'>int <a href="http://www.gzip.org/zlib/manual.html#inflateReset" target="_blank">inflateReset</a>
+  (<a href="Knowledge.html#z_streamp">z_streamp</a> strm);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:11;mso-yfti-lastrow:yes;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0" style='margin-left:.45pt;border-collapse:collapse;mso-yfti-tbllook:480;
+ mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+				<tr style='mso-yfti-irow:0;height:1.0pt'>
+					<td width="887" colspan="4" valign="top" style='width:665.15pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US" style='font-size:16.0pt'>Function Description<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:1;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" colspan="3" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US" style='color:blue'>int <a name="deflateInit2">deflateInit2</a>
+  (<a href="Knowledge.html#z_streamp">z_streamp</a> strm, int level, int
+  method, <a href="Knowledge.html#WindowBits">int windowBits</a>, int memLevel,
+  int strategy);</span><span lang="EN-US"><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:2;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="2" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:red'>deflateInit2함수는 압축을 위한 초기화를
+  할 뿐, 압축 작업을 수행하지는 않는다.</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">This is another version of <a href="BasicFunction.html#deflateInit">deflateInit</a> with more compression
+  options. The fields <a href="Knowledge.html#next_in">next_in</a>, <a href="Knowledge.html#zalloc">zalloc</a>, <a href="Knowledge.html#zfree">zfree</a>
+  and <a href="Knowledge.html#opaque">opaque</a> must be initialized before by
+  the caller. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='color:blue'>int level <o:p></o:p></span></b></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:굴림;mso-hansi-font-family:
+  굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US" style='color:blue'> </span></b><span lang="EN-US"><a href="Knowledge.html#CompressionRate">Compression 
+									Rate(Level)</a><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='color:blue'>int method</span></b><span lang="EN-US"> </span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:
+  굴림;mso-hansi-font-family:굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US"> compression method. <a href="Knowledge.html#Z_DEFLATED"><span style='color:windowtext;text-decoration:none;text-underline:none'>무조건 </span>Z_DEFLATED</a>으로
+  설정해야 한다. <o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='color:blue'><a href="Knowledge.html#WindowBits">int 
+										windowBits</a></span></b></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:
+  굴림;mso-hansi-font-family:굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US"> <a href="BasicFunction.html#deflateInit">deflateInit</a>는 MAX_WBITS(15)값을
+  사용한다. GZIP 포맷으로 압축하기 위해서는 -15로 설정해야 한다.<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='color:blue'>int memLevel</span></b></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:
+  굴림;mso-hansi-font-family:굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US"> 압축을 위해 사용할 메모리의 양을 설정한다. </span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:
+  굴림;mso-hansi-font-family:굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US"> 1~9 사이의 값을 가지며, 값이 클수록 메모리 공간을 많이 확보한다. 물론 메모리를 많이 쓸수록 속도는 빨라진다. 기본적으로는
+  8을 사용한다.</span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:
+  굴림;mso-hansi-font-family:굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US"> See <a href="zconf.html" target="_blank">zconf.h</a> for total
+  memory usage as a function of windowBits and memLevel. <o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='color:blue'><a href="Knowledge.html#StrategyParameter">int 
+										strategy</a></span></b><span lang="EN-US"><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(Error
+  Return)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:3;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_OK">Z_OK</a> if
+  success.</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_MEM_ERROR">Z_MEM_ERROR</a>
+  if there was not enough memory.</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_STREAM_ERROR">Z_STREAM_ERROR</a>
+  if a parameter is invalid (such as an invalid method). </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#msg">msg</a> is
+  set to null if there is no error message. <o:p></o:p></span></p>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:4;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="2" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US">(예제) </span></b><span lang="EN-US">&#8211; <a href="GZIP_Example.html" target="_blank">전체 
+									소스 보기</a><b style='mso-bidi-font-weight:
+  normal'><o:p></o:p></b></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:5;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+  color:blue'>int</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>
+  CGZipFile::Open( <span style='color:blue'>const</span> <span style='color:blue'>char</span> *_filename, <span style='color:blue'>const</span>
+  <span style='color:blue'>char</span> *_mode )<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>{<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>int</span> err;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipStream.zalloc
+  = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipStream.zfree
+  = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>gzipStream.opaque
+  = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>if</span> ( _mode[0] == 'r' ){<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fType
+  = INFLATE;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>else</span>{<span style='color:blue'><o:p></o:p></span></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fType
+  = DEFLATE;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>err
+  = deflateInit2( &amp;gzipStream, compressLevel, Z_DEFLATED, -MAX_WBITS,<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>DEF_MEM_LEVEL,
+  Z_DEFAULT_STRATEGY );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:2'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>if</span> ( err != Z_OK )<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:3'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>return</span> 0;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fp
+  = fopen( _filename, _mode );<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:blue'>return</span> (<span style='color:blue'>int</span>) fp;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;mso-hansi-font-family:"Times New Roman";
+  mso-bidi-font-family:"Times New Roman"'>}</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:6;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="2" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:7;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" colspan="3" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US" style='color:blue'>int <a name="inflateInit2">inflateInit2</a>
+  (<a href="http://www.gzip.org/zlib/manual.html#z_streamp#z_streamp">z_streamp</a>
+  strm, int windowBits);</span><span lang="EN-US"><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:8;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="2" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US">This is another version of <a href="http://www.gzip.org/zlib/manual.html#inflateInit#inflateInit">inflateInit</a>
+  with an extra parameter. The fields <a href="http://www.gzip.org/zlib/manual.html#next_in#next_in">next_in</a>, <a href="http://www.gzip.org/zlib/manual.html#avail_in#avail_in">avail_in</a>, <a href="http://www.gzip.org/zlib/manual.html#zalloc#zalloc">zalloc</a>, <a href="http://www.gzip.org/zlib/manual.html#zfree#zfree">zfree</a> and <a href="http://www.gzip.org/zlib/manual.html#opaque#opaque">opaque</a> must be
+  initialized before by the caller. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='color:blue'><a href="Knowledge.html#WindowBits">int 
+										windowBits</a></span></b></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:
+  굴림;mso-hansi-font-family:굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US"> <a href="BasicFunction.html#deflateInit">deflateInit</a>는 MAX_WBITS(15)값을
+  사용한다. GZIP 포맷을 복원하기 위해서는 -15로 설정해야 한다.<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:
+  굴림;mso-hansi-font-family:굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US"> If a compressed stream with a larger window size is given as
+  input, <a href="BasicFunction.html#inflate">inflate</a>() will return with
+  the error code <a href="Knowledge.html#Z_DATA_ERROR">Z_DATA_ERROR</a> instead
+  of trying to allocate a larger window. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(Error
+  Return)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:9;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_OK">Z_OK</a> if
+  success.</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_MEM_ERROR">Z_MEM_ERROR</a>
+  if there was not enough memory</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_STREAM_ERROR">Z_STREAM_ERROR</a>
+  if a parameter is invalid (such as a negative memLevel). </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#msg">msg</a> is
+  set to null if there is no error message. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:10;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="2" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US">(예제) &#8211; </span></b><span lang="EN-US"><a href="GZIP_Example.html#Decompress" target="_blank">전체 
+									소스 보기</a><b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:11;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="2" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:12;mso-yfti-lastrow:yes;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.55pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="2" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='tab-stops:81.0pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+		</div>
+
+<!-- 구글 로그분석코드 시작 -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-64652-1";
+urchinTracker();
+</script>
+<!-- 구글 로그분석코드 완료 -->
+	</body>
+
+</html>

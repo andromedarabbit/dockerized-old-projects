@@ -1,0 +1,1222 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+
+	<head>
+		<title>GZIP 파일의 구조</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="zlib gzip">
+		<meta name="ProgId" content="Word.Document">
+		<meta name="Generator" content="Microsoft Word 10">
+		<meta name="Originator" content="Microsoft Word 10">
+
+		<link rel="File-List" href="GzipFileFormat.files/filelist.xml">
+			<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Compatibility>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]-->
+			<style>
+				<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:바탕;
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-alt:Batang;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:굴림;
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-alt:Gulim;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@굴림";
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@바탕";
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:굴림;
+	mso-bidi-font-family:굴림;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:99.25pt 3.0cm 3.0cm 3.0cm;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+			</style>
+		<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"표준 표";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+table.MsoTableGrid
+	{mso-style-name:"표 구분선";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:굴림;}
+</style>
+<![endif]-->
+	</head>
+
+	<body lang="KO" link="blue" vlink="purple" style='tab-interval:40.0pt'>
+
+		<div class="Section1">
+
+			<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US"><a href="Index.htm">HOME</a> &gt; GZIP 파일의 구조<o:p></o:p></span></b></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" align="center" style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span lang="EN-US" style='font-size:20.0pt'>GZIP 파일의 구조<o:p></o:p></span></b></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><a href="http://www.ietf.org/rfc/rfc1952.txt" target="_blank">참고
+						자료<o:p></o:p></a></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><a name="MemberFormat"></a><b style='mso-bidi-font-weight:
+normal'><span lang="EN-US" style='font-size:16.0pt'>GZIP 파일의 기본 포맷<o:p></o:p></span></b></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='color:red'>@ 작은 박스 하나가
+한 바이트를 의미한다.<o:p></o:p></span></b></p>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'><span lang="EN-US"><br>
+반드시 들어가야 하는 부분</span></p>
+
+			<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style='margin-left:50.15pt;border-collapse:collapse;border:none;mso-border-alt:
+ solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+ mso-border-insideh:.5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+				<tr style='mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#ID">ID1</a></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#ID">ID2</a></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#CM">CM</a></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#FLG">FLG</a></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.55pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="62" valign="top" style='width:46.8pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#MTIME">MTIME</a></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#XFL">XFL</a></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.55pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#OS">OS</a></span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd;
+text-align:justify;text-justify:inter-ideograph'><span lang="EN-US"><a href="GzipFileFormat.html#FEXTRA">FLG.FEXTRA</a>가 세팅된 경우 </span></p>
+
+			<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style='margin-left:50.15pt;border-collapse:collapse;border:none;mso-border-alt:
+ solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+ mso-border-insideh:.5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+				<tr style='mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;background:#CCCCCC;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US">XLEN</span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#CCCCCC;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="469" valign="top" style='width:351.4pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US">XLEN
+  byte of extra field</span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'><span lang="EN-US"><a href="GzipFileFormat.html#FNAME">FLG.FNAME</a>이 세팅된 경우 </span></p>
+
+			<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style='margin-left:50.15pt;background:white;border-collapse:collapse;
+ border:none;mso-border-alt:solid windowtext .5pt;mso-yfti-tbllook:480;
+ mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:.5pt solid windowtext;
+ mso-border-insidev:.5pt solid windowtext'>
+				<tr style='mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+					<td width="585" valign="top" style='width:438.4pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US">Original
+  filename, zero-terminated</span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'><span lang="EN-US"><a href="GzipFileFormat.html#FHCRC">FLG.FHCRC</a>가 세팅된 경우 </span></p>
+
+			<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style='margin-left:50.15pt;border-collapse:collapse;border:none;mso-border-alt:
+ solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+ mso-border-insideh:.5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+				<tr style='mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+					<td width="62" valign="top" style='width:46.8pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;background:#CCCCCC;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#FHCRC">CRC16</a></span></p>
+					</td>
+					<td width="50" valign="top" style='width:37.65pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#CCCCCC;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'>반드시 들어가야
+				하는 부분</p>
+
+			<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style='margin-left:50.15pt;border-collapse:collapse;border:none;mso-border-alt:
+ solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+ mso-border-insideh:.5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+				<tr style='mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+					<td width="585" valign="top" style='width:438.4pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'>압축된 내용<span lang="EN-US">(Blocks)</span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'>반드시 들어가야
+				하는 부분</p>
+
+			<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style='margin-left:50.15pt;border-collapse:collapse;border:none;mso-border-alt:
+ solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+ mso-border-insideh:.5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+				<tr style='mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;background:#99CC00;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#CRC32">CRC32</a></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#99CC00;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#99CC00;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#99CC00;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.55pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><a href="GzipFileFormat.html#ISIZE">ISIZE</a></span></p>
+					</td>
+					<td width="62" valign="top" style='width:46.8pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="58" valign="top" style='width:43.5pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;background:#D9D9D9;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal" align="center" style='text-align:center'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal" style='margin-left:36.0pt;mso-para-margin-left:3.0gd'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:16.0pt'>Member header와 trailer &#8211; <a href="GZIP_Example.html" target="_blank">예제
+							보기</a><br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]><o:p></o:p></span></b></p>
+
+			<table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0" align="left" style='border-collapse:collapse;mso-yfti-tbllook:480;mso-table-lspace:7.1pt;
+ margin-left:4.85pt;mso-table-rspace:7.1pt;margin-right:4.85pt;mso-table-anchor-vertical:
+ paragraph;mso-table-anchor-horizontal:margin;mso-table-left:left;mso-table-top:
+ 7.8pt;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+				<tr style='mso-yfti-irow:0;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'><a name="ID"></a>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="672" colspan="2" valign="top" style='width:504.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US">1. ID1과 ID2<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:1;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="37" valign="top" style='width:27.4pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="635" valign="top" style='width:476.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'>파일의 포맷을 알려주는 부분이다<span lang="EN-US">. <br>
+  GZIP 파일의 경우 ID1과 ID2는 정해진 값을 31과 139를 갖는다. <br>
+  16진수로는<span style='color:red'> 0x1f</span>, <span style='color:red'>0x8b</span>이다.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:2;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US"><o:p>&nbsp;</o:p></span></b></p>
+					</td>
+					<td width="672" colspan="2" valign="top" style='width:504.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US">2. CM (Compression Method)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:3;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="37" valign="top" style='width:27.4pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="635" valign="top" style='width:476.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">GZIP 파일의
+  경우 <span style='color:red'>8</span>로 세팅한다.</span></p>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">8은
+  ZLIB의 <a href="ZlibAlgorithm.htm">deflate 압축 방법</a>을 의미한다.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:4;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="672" colspan="2" valign="top" style='width:504.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><a name="FLG"></a><b style='mso-bidi-font-weight:normal'><span lang="EN-US">3. FLG<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:5;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="37" valign="top" style='width:27.4pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="635" valign="top" style='width:476.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<div align="center">
+							<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;mso-border-alt:solid windowtext .5pt;
+   mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+   .5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+								<tr style='mso-yfti-irow:0;height:2.05pt'>
+									<td width="179" valign="top" style='width:134.6pt;border:solid windowtext 1.0pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:2.05pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Bit
+    0 </span></p>
+									</td>
+									<td width="228" valign="top" style='width:171.0pt;border:solid windowtext 1.0pt;
+    border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:2.05pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><a href="GzipFileFormat.html#FTEXT">FTEXT</a></span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:1;height:1.85pt'>
+									<td width="179" valign="top" style='width:134.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Bit
+    1</span></p>
+									</td>
+									<td width="228" valign="top" style='width:171.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><a href="GzipFileFormat.html#FHCRC">FHCRC</a></span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:2;height:1.85pt'>
+									<td width="179" valign="top" style='width:134.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Bit
+    2 </span></p>
+									</td>
+									<td width="228" valign="top" style='width:171.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><a href="GzipFileFormat.html#FEXTRA">FEXTRA</a></span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:3;height:1.85pt'>
+									<td width="179" valign="top" style='width:134.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Bit
+    3</span></p>
+									</td>
+									<td width="228" valign="top" style='width:171.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><a href="GzipFileFormat.html#FNAME">FNAME</a></span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:4;height:1.85pt'>
+									<td width="179" valign="top" style='width:134.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Bit
+    4 </span></p>
+									</td>
+									<td width="228" valign="top" style='width:171.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><a href="GzipFileFormat.html#FCOMMENT">FCOMMENT</a></span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:5;height:1.85pt'>
+									<td width="179" valign="top" style='width:134.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Bit
+    5</span></p>
+									</td>
+									<td width="228" valign="top" style='width:171.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Reserved</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:6;height:1.85pt'>
+									<td width="179" valign="top" style='width:134.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Bit
+    6</span></p>
+									</td>
+									<td width="228" valign="top" style='width:171.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Reserved</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:7;mso-yfti-lastrow:yes;height:1.85pt'>
+									<td width="179" valign="top" style='width:134.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Bit
+    7</span></p>
+									</td>
+									<td width="228" valign="top" style='width:171.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.85pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Reserved</span></p>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><br>
+  (1) <a name="FTEXT"></a>FTEXT</span></p>
+						<p class="MsoNormal" style='margin-left:24.0pt;mso-para-margin-left:2.0gd;
+  mso-element:frame;mso-element-frame-hspace:7.1pt;mso-element-wrap:around;
+  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:margin;
+  mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">FTEXT가 세팅되면
+  ASCII 형식의 파일이라는 것을 알려준다. <br>
+  세팅되지 않은 경우에는 Binary 파일로 인식한다. <br>
+  하지만 있어도 되고 없어도 되는 옵션이므로 중요하지 않다.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">(2) <a name="FHCRC"></a>FHCRC</span></p>
+						<p class="MsoNormal" style='margin-left:24.0pt;mso-para-margin-left:2.0gd;
+  mso-element:frame;mso-element-frame-hspace:7.1pt;mso-element-wrap:around;
+  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:margin;
+  mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">FHCRC가 세팅되면 기본
+  헤더 뒤에 CRC16 정보가 붙는다. <br>
+  이는 압축된 내용 다음에 붙는 CRC32정보와는 다르다.<br>
+  <br>
+  즉, 이 CRC16은 헤더 파일에 대한 것이고 뒤에 붙는 CRC32는 원본파일과 압축된 파일에 대한 것이다.</span></p>
+						<p class="MsoNormal" style='margin-left:24.0pt;mso-para-margin-left:2.0gd;
+  mso-element:frame;mso-element-frame-hspace:7.1pt;mso-element-wrap:around;
+  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:margin;
+  mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">(3) <a name="FEXTRA"></a>FEXTRA</span></p>
+						<p class="MsoNormal" style='margin-left:24.0pt;mso-para-margin-left:2.0gd;
+  mso-element:frame;mso-element-frame-hspace:7.1pt;mso-element-wrap:around;
+  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:margin;
+  mso-element-top:7.8pt;mso-height-rule:exactly'>필요에 따라 추가 정보를 제공하기 위한 필드일 뿐이다<span lang="EN-US">.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">(4<a name="FNAME"></a>) FNAME</span></p>
+						<p class="MsoNormal" style='margin-left:24.0pt;mso-para-margin-left:2.0gd;
+  mso-element:frame;mso-element-frame-hspace:7.1pt;mso-element-wrap:around;
+  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:margin;
+  mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">FNAME이 세팅되면 ‘\0’로
+  끝나는 원본 파일의 이름이 추가된다.<br>
+  이 때 파일 이름은 ISO-8859-1(LATIN-1)형식으로 표현해야 한다. <br>
+  LATIN-1은 영어처럼 유럽에서 사용하는 1바이트 문자를 나타낸다.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">(5)<a name="FCOMMENT"></a> FCOMMENT</span></p>
+						<p class="MsoNormal" style='margin-left:24.0pt;mso-para-margin-left:2.0gd;
+  mso-element:frame;mso-element-frame-hspace:7.1pt;mso-element-wrap:around;
+  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:margin;
+  mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">FCOMMENT가 세팅되면
+  ‘\0’으로 끝나는 간단한 설명이 들어간다. <br>
+  옵션일 뿐이다.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:6;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="672" colspan="2" valign="top" style='width:504.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US">4.<a name="MTIME"></a> MTIME (Modification TIME)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:7;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="37" valign="top" style='width:27.4pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="635" valign="top" style='width:476.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'>압축 파일이 생성된 시간이 들어간다<span lang="EN-US">. <br>
+  유닉스에서 사용하는 시간 형태로 1970년 1월 1일 00:00:00 이후의 시간을 초로 계산한 값이 들어간다. (흔히 <span style='color:red'>UNIXSTAMP</span>라고 부른다.) <br style='mso-special-character:
+  line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">MTIME=0은
+  Modificaton이 이용 가능하지 않다는 뜻이다.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:8;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="672" colspan="2" valign="top" style='width:504.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US">5. <a name="XFL"></a>XFL (eXtra Flags) <o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:9;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="37" valign="top" style='width:27.4pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="635" valign="top" style='width:476.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><a href="GzipFileFormat.html#CM">CM</a> = 8 인 경우에는 XFL은 2 또는 4의 값을 갖는다. <br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+						<p class="MsoNormal" style='margin-left:24.0pt;mso-para-margin-left:2.0gd;
+  mso-element:frame;mso-element-frame-hspace:7.1pt;mso-element-wrap:around;
+  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:margin;
+  mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">XFL=2 </span><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:굴림;mso-hansi-font-family:
+  굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US"> 속도가 느린 대신 압축률이 가장 높은 Deflate</span></p>
+						<p class="MsoNormal" style='margin-left:24.0pt;mso-para-margin-left:2.0gd;
+  mso-element:frame;mso-element-frame-hspace:7.1pt;mso-element-wrap:around;
+  mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:margin;
+  mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">XFL=4 </span><span lang="EN-US" style='font-family:Wingdings;mso-ascii-font-family:굴림;mso-hansi-font-family:
+  굴림;mso-char-type:symbol;mso-symbol-font-family:Wingdings'><span style='mso-char-type:symbol;mso-symbol-font-family:Wingdings'>&egrave;</span></span><span lang="EN-US"> 속도가 가장 빠르나 압축률이 가장 낮은 Deflate</span></p>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:10;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="672" colspan="2" valign="top" style='width:504.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US">6. <a name="OS"></a>OS (Operating System)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:11;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="37" valign="top" style='width:27.4pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="635" valign="top" style='width:476.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'>압축이 일어난 파일 시스템을 알려준다<span lang="EN-US">. <br>
+  텍스트 파일의 End-of-Line을 구별하는 데에 유용하다.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+						<div align="center">
+							<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;border:none;mso-border-alt:solid windowtext .5pt;
+   mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+   .5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+								<tr style='mso-yfti-irow:0;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>0<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border:solid windowtext 1.0pt;
+    border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">FAT
+    file system (MS-DOS, OS/2, NT/Win32)</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:1;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>1<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Amiga</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:2;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>2<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">VMS
+    or Open VMS</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:3;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>3<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Unix</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:4;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>4<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">VM/CMS</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:5;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>5<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Atari
+    TOS</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:6;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>6<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">HPFS
+    file system (OS/2, NT)</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:7;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>7<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Macintosh</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:8;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>8<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Z-System</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:9;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>9<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">CP/M</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:10;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>10<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">TOPS-20</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:11;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>11<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">NTFS
+    file system (NT)</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:12;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>12<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">QDOS</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:13;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>13<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">Acorn
+    RISCOS</span></p>
+									</td>
+								</tr>
+								<tr style='mso-yfti-irow:14;mso-yfti-lastrow:yes;height:1.0pt'>
+									<td width="83" valign="top" style='width:62.6pt;border:solid windowtext 1.0pt;
+    border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:
+    solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US" style='color:#339966'>255<o:p></o:p></span></p>
+									</td>
+									<td width="360" valign="top" style='width:270.0pt;border-top:none;border-left:
+    none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+    mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+    mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+    height:1.0pt'>
+										<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+    mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+    margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">unknown</span></p>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:12;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="672" colspan="2" valign="top" style='width:504.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><a name="CRC32"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">7. CRC32</span></b></a><b style='mso-bidi-font-weight:normal'><span lang="EN-US"><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:13;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="37" valign="top" style='width:27.4pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="635" valign="top" style='width:476.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US">ISO
+  3309에 기술된 CRC-32 algorithm을 사용한다.<br>
+  헤더에 대한 정보를 포함하는 CRC16과는 다르다는 점에 유의한다.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:14;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="672" colspan="2" valign="top" style='width:504.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><a name="ISIZE"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">8. ISIZE(Input Size)</span></b></a><b style='mso-bidi-font-weight:normal'><span lang="EN-US"><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:15;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="37" valign="top" style='width:27.4pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US"><o:p>&nbsp;</o:p></span></b></p>
+					</td>
+					<td width="635" valign="top" style='width:476.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'>압축되기 전의 파일 사이즈를 기록한다<span lang="EN-US">.</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:16;mso-yfti-lastrow:yes;height:1.0pt'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="37" valign="top" style='width:27.4pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><b style='mso-bidi-font-weight:
+  normal'><span lang="EN-US"><o:p>&nbsp;</o:p></span></b></p>
+					</td>
+					<td width="635" valign="top" style='width:476.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-element:frame;mso-element-frame-hspace:7.1pt;
+  mso-element-wrap:around;mso-element-anchor-vertical:paragraph;mso-element-anchor-horizontal:
+  margin;mso-element-top:7.8pt;mso-height-rule:exactly'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal" style='margin-left:36.0pt'><span lang="EN-US"><br style='mso-special-character:line-break'>
+<![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+<![endif]></span></p>
+
+			<p class="MsoNormal" style='margin-left:36.0pt'><a name="CM"></a><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+		</div>
+
+<!-- 구글 로그분석코드 시작 -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-64652-1";
+urchinTracker();
+</script>
+<!-- 구글 로그분석코드 완료 -->
+	</body>
+
+</html>

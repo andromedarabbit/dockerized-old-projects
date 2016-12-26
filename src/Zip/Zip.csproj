@@ -1,0 +1,150 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{22F6D3B8-1376-40F8-995C-51C15B088931}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "Zip"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Exe"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "Zip"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References/>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AdvancedFunctions.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "BasicFunction.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Example.zip"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "GZIP_Example.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "GzipFileFormat.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HowtoUseZlib.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Huffman.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Knowledge.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "LZ_Algorithm.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "LZ_Example.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "LZ_TABLE.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "UtilityFunction.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "zconf.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ZIP_DECOMPRESS_EXAMPLE.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "zipFileFormat.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ZlibAlgorithm.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\print.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "css\screen.css"
+                    BuildAction = "Content"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

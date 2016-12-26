@@ -1,0 +1,1625 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:st1="urn:schemas-microsoft-com:office:smarttags" xmlns="http://www.w3.org/TR/REC-html40">
+
+	<head>
+		<title>Zlib Basic Functions</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="zlib functions">
+		<meta name="ProgId" content="Word.Document">
+		<meta name="Generator" content="Microsoft Word 10">
+		<meta name="Originator" content="Microsoft Word 10">
+		
+		<link rel="File-List" href="BasicFunction.files/filelist.xml">
+			<o:smarttagtype namespaceuri="urn:schemas-microsoft-com:office:smarttags" name="place" />
+			<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Compatibility>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--> 
+			<!--[if !mso]><object
+ classid="clsid:38481807-CA0E-42D2-BF39-B33AF135CC4D" id=ieooui></object>
+<style>
+st1\:*{behavior:url(#ieooui) }
+</style>
+<![endif]-->
+			<style>
+				<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:2;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:0 268435456 0 0 -2147483648 0;}
+@font-face
+	{font-family:바탕;
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-alt:Batang;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:굴림;
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-alt:Gulim;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:굴림체;
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@바탕";
+	panose-1:2 3 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@굴림";
+	panose-1:2 11 6 0 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:돋움체;
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@굴림체";
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+@font-face
+	{font-family:"\@돋움체";
+	panose-1:2 11 6 9 0 1 1 1 1 1;
+	mso-font-charset:129;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-1342176593 1775729915 48 0 524447 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:굴림;
+	mso-bidi-font-family:굴림;
+	color:windowtext;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:굴림;
+	mso-bidi-font-family:굴림;
+	color:black;}
+pre
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+	font-size:12.0pt;
+	font-family:굴림체;
+	mso-bidi-font-family:굴림체;
+	color:windowtext;}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:99.25pt 3.0cm 3.0cm 3.0cm;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:1649481267;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-1971269950 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F06C;
+	mso-level-tab-stop:40.0pt;
+	mso-level-number-position:left;
+	margin-left:40.0pt;
+	text-indent:-20.0pt;
+	font-family:Wingdings;}
+@list l0:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l0:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1
+	{mso-list-id:1771467006;
+	mso-list-type:hybrid;
+	mso-list-template-ids:-125138962 67698689 67698691 67698693 67698689 67698691 67698693 67698689 67698691 67698693;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F06C;
+	mso-level-tab-stop:40.0pt;
+	mso-level-number-position:left;
+	margin-left:40.0pt;
+	text-indent:-20.0pt;
+	font-family:Wingdings;}
+@list l1:level2
+	{mso-level-tab-stop:72.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level3
+	{mso-level-tab-stop:108.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level4
+	{mso-level-tab-stop:144.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level5
+	{mso-level-tab-stop:180.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level6
+	{mso-level-tab-stop:216.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level7
+	{mso-level-tab-stop:252.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level8
+	{mso-level-tab-stop:288.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+@list l1:level9
+	{mso-level-tab-stop:324.0pt;
+	mso-level-number-position:left;
+	text-indent:-18.0pt;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+			</style>
+		<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"표준 표";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+table.MsoTableGrid
+	{mso-style-name:"표 구분선";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:굴림;}
+</style>
+<![endif]-->
+	</head>
+
+	<body lang="KO" link="blue" vlink="purple" style='tab-interval:40.0pt'>
+
+		<div class="Section1">
+
+			<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:16.0pt'><a href="Index.htm">HOME</a> &gt; Zlib Basic Function
+Manual <o:p></o:p></span></b></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal" align="center" style='text-align:center'><b style='mso-bidi-font-weight:
+normal'><span lang="EN-US" style='font-size:20.0pt'>Zlib Basic Function Manual<o:p></o:p></span></b></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:16.0pt'>Introduction <o:p></o:p></span></b></p>
+
+			<table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0" style='border-collapse:collapse;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+				<tr style='mso-yfti-irow:0;mso-yfti-lastrow:yes'>
+					<td width="35" valign="top" style='width:26.6pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="852" valign="top" style='width:639.0pt;padding:0cm 5.4pt 0cm 5.4pt'>
+						<p class="MsoNormal">기본적으로<span lang="EN-US"> Basic Function만을 이용하면 압축과 복원을 할 수 있다.
+  </span></p>
+						<p class="MsoNormal"><span lang="EN-US">Zlib library에서 제공하는 그 외의 Function은 단순히 사용자
+  편의를 위한 것이다. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal">다만<span lang="EN-US"> Basic Function에서 제공하는 Deflate 압축 알고리즘과
+  GZIP을 혼동해서는 안 된다.</span></p>
+						<p class="MsoNormal"><span lang="EN-US">GZIP은 Header, Compressed Data, 그리고
+  Trailer로 구성되어 있다.</span></p>
+						<p class="MsoNormal"><span lang="EN-US">Deflate 알고리즘은 이 중 Compressed Data를 생성하기 위한
+  것이다.</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span style='color:red'>주의<span lang="EN-US">!!!</span></span><span lang="EN-US"> GZIP 파일 포맷으로 압축 및 복원하기 위해서는 <a href="AdvancedFunctions.html">Advanced
+									Function</a>의 도움을 받아야 한다.</span></p>
+						<p class="MsoNormal">특히 <span lang="EN-US">Advanced Function 중 <a href="AdvancedFunctions.html#deflateInit2">
+									deflateInit2</a>와 <a href="AdvancedFunctions.html#inflateInit2">inflateInit2</a>함수에 주목하라.</span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0" style='border-collapse:collapse;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+				<tr style='mso-yfti-irow:0;height:1.0pt'>
+					<td width="887" colspan="3" valign="top" style='width:665.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:16.0pt'>Function List<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:1;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" colspan="2" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">1.
+  라이브러리 버전 체크<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:2;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><a name="Basic_functions"><span lang="EN-US">A. const char *
+  </span></a><span lang="EN-US"><a href="BasicFunction.html#zlibVersion">zlibVersion</a>
+  (void);<br>
+  <br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:3;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" colspan="2" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">2.
+  압축 &#8211; </span></b><span lang="EN-US"><a href="GZIP_Example.html" target="_blank">소스
+									코드 보기</a><b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:4;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto'><span lang="EN-US">A. int <a href="BasicFunction.html#deflateInit">deflateInit</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm, int level); </span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:5;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US">B. int <a href="BasicFunction.html#deflate">deflate</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm, int flush);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:6;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US">C. int <a href="BasicFunction.html#deflateEnd">deflateEnd</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm);<br>
+  <br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:7;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" colspan="2" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">3.
+  복원 &#8211; </span></b><span lang="EN-US"><a href="GZIP_Example.html#Decompress" target="_blank">소스 코드 보기</a><b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:8;height:5.0pt'>
+					<td width="36" rowspan="3" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US">A. int <a href="BasicFunction.html#inflateInit">inflateInit</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:9;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US">B. int <a href="BasicFunction.html#inflate">inflate</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm, int flush);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:10;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US">C. int <a href="BasicFunction.html#inflateEnd">inflateEnd</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm);</span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:11;mso-yfti-lastrow:yes;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" colspan="2" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<table class="MsoTableGrid" border="0" cellspacing="0" cellpadding="0" style='border-collapse:collapse;mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt'>
+				<tr style='mso-yfti-irow:0;height:1.0pt'>
+					<td width="887" colspan="5" valign="top" style='width:665.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US" style='font-size:16.0pt'>Function Description</span><span lang="EN-US"><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:1;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" colspan="4" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">1.
+  라이브러리 버전 체크<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:2;height:7.5pt'>
+					<td width="36" rowspan="2" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:7.5pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:7.5pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="3" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:7.5pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">A.<span style='color:blue'> const char * <a name="zlibVersion">zlibVersion</a> (void);</span><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:3;height:7.5pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:7.5pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:7.5pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:7.5pt'>
+						<p class="MsoNormal"><span lang="EN-US">The application can compare <a href="BasicFunction.html#zlibVersion">zlibVersion</a> and ZLIB_VERSION for consistency.
+  If the first character differs, the library code actually used is not
+  compatible with the zlib.h header file used by the application<span style='color:red'>. This check is automatically made by <a href="BasicFunction.html#deflateInit"><span style='color:red'>deflateInit</span></a>
+  and <a href="BasicFunction.html#inflateInit"><span style='color:red'>inflateInit</span></a>.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]><o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(예제)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:4;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체;
+  color:blue'>static</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체'> <span style='color:blue'>const</span> <span style='color:blue'>char</span>*
+  myVersion = <a href="Knowledge.html#zlib_version">ZLIB_VERSION</a>;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체;
+  color:blue'>if</span><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체'> (<a href="Knowledge.html#zlib_version">zlibVersion()</a>[0] != myVersion[0])
+  {<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span><o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,
+  &quot;incompatible zlib version\n&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체'>} <span style='color:blue'>else</span> <span style='color:blue'>if</span>
+  (strcmp(zlibVersion(), ZLIB_VERSION) != 0) {<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,
+  &quot;warning: different zlib version\n&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span style='font-size:10.0pt;font-family:돋움체;
+  mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체;mso-ansi-language:
+  KO'>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span style='font-size:10.0pt;font-family:돋움체;
+  mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:돋움체;mso-ansi-language:
+  KO'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span style='font-size:10.0pt;mso-hansi-font-family:
+  "Times New Roman";mso-ansi-language:KO'><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:5;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" colspan="4" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">2.
+  압축 &#8211; </span></b><span lang="EN-US"><a href="GZIP_Example.html" target="_blank">소스
+									코드 보기</a><b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:6;height:1.8pt'>
+					<td width="36" rowspan="11" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.8pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.8pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="3" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.8pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">A.<span style='color:blue'> int <a name="deflateInit">deflateInit</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm, <a href="Knowledge.html#CompressionRate">int 
+											level</a>);</span><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:7;height:60.0pt'>
+					<td width="36" rowspan="3" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:60.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" rowspan="3" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:60.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:60.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='color:red'>deflateInit함수는 압축을 위한 초기화를
+  할 뿐, 압축 작업을 수행하지는 않는다.<br style='mso-special-character:line-break'>
+  <![if !supportLineBreakNewLine]><br style='mso-special-character:line-break'>
+  <![endif]><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">Initializes the internal stream state for
+  compression. The fields <a href="Knowledge.html#zalloc">zalloc</a>, <a href="Knowledge.html#zfree">zfree</a> and <a href="Knowledge.html#opaque">opaque</a>
+  must be initialized before by the caller. If <a href="Knowledge.html#zalloc">zalloc</a>
+  and <a href="Knowledge.html#zfree">zfree</a> are set to <a href="Knowledge.html#Z_NULL">Z_NULL</a>, <a href="BasicFunction.html#deflateInit">deflateInit</a> updates them to use default
+  allocation functions. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(Error
+  Return)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:8;height:30.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:30.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:30.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_OK">Z_OK</a> if
+  success </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_MEM_ERROR">Z_MEM_ERROR</a>
+  if there was not enough memory </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_STREAM_ERROR">Z_STREAM_ERROR</a>
+  if level is not a valid compression level</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_VERSION_ERROR">Z_VERSION_ERROR</a>
+  if the zlib library version (<a href="Knowledge.html#zlib_version">zlib_version</a>)
+  is incompatible with the version assumed by the caller (ZLIB_VERSION). </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#msg">msg</a> is
+  set to null if there is no error message. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:9;height:17.55pt'>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:17.55pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(예제)</span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:10;height:1.65pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>z_stream
+  stream;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span lang="EN-US" style='font-size:10.0pt;font-family:굴림체;mso-bidi-font-family:굴림체;
+  color:green'>/* 모든 메모리 메니지먼트를 라이브러리에 맡긴다 */<o:p></o:p></span></p>
+						<p class="MsoNormal" style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span lang="EN-US" style='font-size:10.0pt;font-family:굴림체;mso-bidi-font-family:굴림체;
+  color:green'>// deflateInit()를 호출하기 전에 초기화해야 한다.<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>stream.zalloc=Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>stream.zfree=Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>stream.opaque=Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman";
+  color:green'>//압축을 위한 초기화 과정<o:p></o:p></span></p>
+						<p class="MsoNormal" style='mso-pagination:none;mso-layout-grid-align:none;
+  text-autospace:none'><span lang="EN-US" style='font-size:10.0pt;font-family:
+  돋움체;mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'>int
+  err=<a href="AdvancedFunctions.html#deflateInit2">deflateInit2</a>(<span style='color:red'>stream</span>, <a href="Knowledge.html#CompressionRate">
+									compress
+									Level</a>, <a href="Knowledge.html#Z_DEFLATED">Z_DEFLATED</a>,-MAX_WBITS,<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt;font-family:돋움체;
+  mso-hansi-font-family:"Times New Roman";mso-bidi-font-family:"Times New Roman"'><span style='mso-tab-count:1'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='mso-spacerun:yes'>&nbsp;</span>DEF_MEM_LEVEL, <a href="Knowledge.html#StrategyParameter">
+									Z_DEFAULT_STRATEGY</a>);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:11;height:1.65pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:12;height:1.65pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="3" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">B.<span style='color:blue'> int <a name="deflate">deflate</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm, int flush);</span><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:13;height:1.65pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><a href="BasicFunction.html#deflate">deflate</a>
+  compresses as much data as possible, <span style='color:red'>and stops when
+  the input buffer becomes empty or the output buffer becomes full.</span> It
+  may introduce some output latency (reading input without producing any
+  output) except when forced to flush. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">The detailed semantics are as follows. <span style='color:red'><a href="BasicFunction.html#deflate"><span style='color:red'>deflate</span></a> performs one or both of the following
+  actions:</span> </span></p>
+						<p class="MsoNormal" style='margin-left:40.0pt;text-indent:-20.0pt;mso-list:
+  l1 level1 lfo2;tab-stops:list 40.0pt'><![if !supportLists]><span lang="EN-US" style='font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+  Wingdings'><span style='mso-list:Ignore'>l<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]><span lang="EN-US">Compress more input starting
+  at <a href="Knowledge.html#next_in">next_in</a> and update <a href="Knowledge.html#next_in">next_in</a> and <a href="Knowledge.html#avail_in">avail_in</a> accordingly. If not all input can
+  be processed (because there is not enough room in the output buffer), <a href="Knowledge.html#next_in">next_in</a> and <a href="Knowledge.html#avail_in">avail_in</a> are updated and processing will
+  resume at this point for the next call of <a href="BasicFunction.html#deflate">deflate</a>().
+  </span></p>
+						<p class="MsoNormal" style='margin-left:40.0pt;text-indent:-20.0pt;mso-list:
+  l1 level1 lfo2;tab-stops:list 40.0pt'><![if !supportLists]><span lang="EN-US" style='font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+  Wingdings'><span style='mso-list:Ignore'>l<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]><span lang="EN-US">Provide more output starting
+  at <a href="Knowledge.html#next_out">next_out</a> and update <a href="Knowledge.html#next_out">next_out</a> and <a href="Knowledge.html#avail_out">avail_out</a> accordingly. This action is
+  forced if the parameter flush is non zero. Forcing flush frequently degrades
+  the compression ratio, so this parameter should be set only when necessary
+  (in interactive applications). Some output may be provided even if flush is
+  not set. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">Before the call of <a href="BasicFunction.html#deflate">deflate</a>(), the application should
+  ensure that at least one of the actions is possible, by providing more input
+  and/or consuming more output, and updating <a href="Knowledge.html#avail_in">avail_in</a>
+  or <a href="Knowledge.html#avail_out">avail_out</a> accordingly ; <a href="Knowledge.html#avail_out">avail_out</a> should never be zero before the
+  call. The application can consume the compressed output when it wants, for
+  example when the output buffer is full (<a href="Knowledge.html#avail_out">avail_out</a>
+  == 0), or after each call of <a href="BasicFunction.html#deflate">deflate</a>
+  (). If <a href="BasicFunction.html#deflate">deflate</a> returns <a href="Knowledge.html#Z_OK">Z_OK</a> and with zero <a href="Knowledge.html#avail_out">avail_out</a>, it must be called again after
+  making room in the output buffer because there might be more output pending. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">If the parameter flush is set to <a href="Knowledge.html#Z_SYNC_FLUSH">Z_SYNC_FLUSH</a>, all pending output is flushed
+  to the output buffer and the output is aligned on a byte boundary, so that
+  the decompressor can get all input data available so far. (In particular <a href="Knowledge.html#avail_in">avail_in</a> is zero after the call if enough
+  output space has been provided before the call.) </span><st1:place><span lang="EN-US">Flushing</span></st1:place><span lang="EN-US"> may degrade
+  compression for some compression algorithms and so it should be used only
+  when necessary. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">If flush is set to <a href="Knowledge.html#Z_FULL_FLUSH">Z_FULL_FLUSH</a>, all output is flushed as
+  with <a href="Knowledge.html#Z_SYNC_FLUSH">Z_SYNC_FLUSH</a>, and the
+  compression state is reset so that decompression can restart from this point
+  if previous compressed data has been damaged or if random access is desired.
+  Using <a href="Knowledge.html#Z_FULL_FLUSH">Z_FULL_FLUSH</a> too often can
+  seriously degrade the compression. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">If <a href="BasicFunction.html#deflate">deflate</a>
+  returns with <a href="Knowledge.html#avail_out">avail_out</a> == 0, this function
+  must be called again with the same value of the flush parameter and more
+  output space (updated <a href="Knowledge.html#avail_out">avail_out</a>),
+  until the flush is complete (<a href="BasicFunction.html#deflate">deflate</a>
+  returns with non-zero <a href="Knowledge.html#avail_out">avail_out</a>). </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">If the parameter flush is set to <a href="Knowledge.html#Z_FINISH">Z_FINISH</a>, pending input is processed,
+  pending output is flushed and <a href="BasicFunction.html#deflate">deflate</a>
+  returns with <a href="Knowledge.html#Z_STREAM_END">Z_STREAM_END</a> if there
+  was enough output space ; if <a href="BasicFunction.html#deflate">deflate</a>
+  returns with <a href="Knowledge.html#Z_OK">Z_OK</a>, this function must be
+  called again with <a href="Knowledge.html#Z_FINISH">Z_FINISH</a> and more
+  output space (updated <a href="Knowledge.html#avail_out">avail_out</a>) but
+  no more input data, until it returns with <a href="Knowledge.html#Z_STREAM_END">Z_STREAM_END</a> or an error. After <a href="BasicFunction.html#deflate">deflate</a> has returned <a href="Knowledge.html#Z_STREAM_END">Z_STREAM_END</a>, the only possible
+  operations on the stream are <a href="http://www.gzip.org/zlib/manual.html#deflateReset#deflateReset">deflateReset</a>
+  or <a href="BasicFunction.html#deflateEnd">deflateEnd</a>. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_FINISH">Z_FINISH</a>
+  can be used immediately after <a href="BasicFunction.html#deflateInit">deflateInit</a>
+  if all the compression is to be done in a single step. In this case, <a href="Knowledge.html#avail_out">avail_out</a> must be at least 0.1% larger
+  than <a href="Knowledge.html#avail_in">avail_in</a> plus 12 bytes. If <a href="BasicFunction.html#deflate">deflate</a> does not return <a href="Knowledge.html#Z_STREAM_END">Z_STREAM_END</a>, then it must be called
+  again as described above. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="BasicFunction.html#deflate">deflate</a>()
+  sets strm-&gt; <a href="http://www.gzip.org/zlib/manual.html#adler#adler">adler</a>
+  to the <a href="http://www.gzip.org/zlib/manual.html#adler32#adler32">adler32</a>
+  checksum of all input read so far (that is, <a href="Knowledge.html#total_in">total_in</a>
+  bytes). </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="BasicFunction.html#deflate">deflate</a>()
+  may update <a href="Knowledge.html#data_type">data_type</a> if it can make a
+  good guess about the input data type (<a href="Knowledge.html#Z_ASCII">Z_ASCII</a>
+  or <a href="Knowledge.html#Z_BINARY">Z_BINARY</a>). In doubt, the data is
+  considered binary. This field is only for information purposes and does not
+  affect the compression algorithm in any manner. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="BasicFunction.html#deflate">deflate</a>()
+  returns <a href="Knowledge.html#Z_OK">Z_OK</a> if some progress has been made
+  (more input processed or more output produced), <a href="Knowledge.html#Z_STREAM_END">Z_STREAM_END</a> if all input has been
+  consumed and all output has been produced (only when flush is set to <a href="Knowledge.html#Z_FINISH">Z_FINISH</a>), <a href="Knowledge.html#Z_STREAM_ERROR">Z_STREAM_ERROR</a> if the stream state
+  was inconsistent (for example if <a href="Knowledge.html#next_in">next_in</a>
+  or <a href="Knowledge.html#next_out">next_out</a> was NULL), <a href="Knowledge.html#Z_BUF_ERROR">Z_BUF_ERROR</a> if no progress is possible
+  (for example <a href="Knowledge.html#avail_in">avail_in</a> or <a href="Knowledge.html#avail_out">avail_out</a> was zero). </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(예제)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:14;height:1.65pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal" style='text-indent:10.0pt;mso-char-indent-count:1.0'><span lang="EN-US" style='font-size:10.0pt'><a href="Knowledge.html#z_stream_s">z_
+									stream</a> z;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='text-indent:10.0pt;mso-char-indent-count:1.0'><span lang="EN-US" style='font-size:10.0pt;color:green'><a href="Knowledge.html#zalloc"><span style='color:green'>/* 모든 메모리 메니지먼트를 라이브러리에
+  맡긴다 */</span></a><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.zalloc = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.zfree = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.opaque = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='color:green'><a href="Knowledge.html#CompressionRate"><span style='color:green'>/*
+  Z_DEFAULT_COMPRESSION가 표준이다.*/</span></a><o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>if ( <a href="BasicFunction.html#deflateInit">
+									deflateInit</a>(&amp;z,
+  Z_DEFAULT_COMPRESSION) != Z_OK ) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;deflateInit: %s\n&quot;, (z.msg) ?<span style='mso-spacerun:yes'>&nbsp; </span>z.msg : &quot;???&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.avail_in = 0;<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span><span style='color:green'>/* 입력 버퍼중의 데이터의 바이트수 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.next_out = outbuf;<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/* 출력 포인터 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.avail_out =
+  OUTBUFSIZE;<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/* 출력 버퍼의 사이즈 */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/*
+  통상은 deflate()의 제2 인수는 Z_NO_FLUSH 로 해 호출한다 */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>flush = Z_NO_FLUSH;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>while (1) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (z.avail_in == 0) {<span style='mso-spacerun:yes'>&nbsp; </span><span style='color:green'>/* 입력이 다하면 */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>z.next_in = inbuf;<span style='mso-spacerun:yes'>&nbsp; </span><span style='color:green'>/* 입력 포인터를 입력 버퍼의 선두에 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>z.avail_in = fread(inbuf, 1, INBUFSIZE, fin); <span style='color:green'>/*
+  데이터를 읽어 들인다 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt;color:green'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>/* 입력이 마지막에 되면(자) deflate()의 제2 인수는 Z_FINISH 로 한다 */<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>if (z.avail_in &lt; INBUFSIZE) flush = Z_FINISH;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>status = <a href="BasicFunction.html#deflate">deflate</a>(&amp;z,
+  flush<span style='color:green'>); /* 압축한다 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (status == Z_STREAM_END) break; <span style='color:green'>/* 완료 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (status != Z_OK) {<span style='mso-spacerun:yes'>&nbsp;&nbsp; </span><span style='color:green'>/* 에러 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;deflate: %s\n&quot;, (z.msg) ?<span style='mso-spacerun:yes'>&nbsp; </span>z.msg : &quot;???&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (z.avail_out == 0) { <span style='color:green'>/* 출력 버퍼가 다하면 정리해 써낸다 */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>if (fwrite(outbuf, 1, OUTBUFSIZE, fout) != OUTBUFSIZE) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;Write error\n&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>z.next_out = outbuf; <span style='color:green'>/* 출력 버퍼 잔량을 바탕으로 되돌린다
+  */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>z.avail_out = OUTBUFSIZE; <span style='color:green'>/* 출력 포인터를 바탕으로 되돌린다
+  */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/*
+  나머지를 토해낸다 */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>if ((count = OUTBUFSIZE -
+  z.avail_out) != 0) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (fwrite(outbuf, 1, count, fout) != count) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;Write error\n&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;</span><span style='mso-spacerun:yes'>&nbsp;&nbsp; </span><span style='color:green'>/* 뒤처리
+  */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>if (<a href="BasicFunction.html#deflateEnd">
+									deflateEnd</a>(&amp;z) != Z_OK) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;deflateEnd: %s\n&quot;, (z.msg) ?<span style='mso-spacerun:yes'>&nbsp; </span>z.msg : &quot;???&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal" style='tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt'><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:15;height:1.65pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:16;height:1.65pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.65pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:17;height:1.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="3" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">C.<span style='color:blue'> int <a name="deflateEnd">deflateEnd</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm);</span><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:18;height:67.5pt'>
+					<td width="36" rowspan="5" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:67.5pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" rowspan="3" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:67.5pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" rowspan="3" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:67.5pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:67.5pt'>
+						<p class="MsoNormal"><span lang="EN-US">All dynamically allocated data structures
+  for this stream are freed. This function discards any unprocessed input and
+  does not flush any pending output. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(Error
+  Return)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:19;height:33.75pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:33.75pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:33.75pt'>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_OK">Z_OK</a> if
+  success</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_STREAM_ERROR">Z_STREAM_ERROR</a>
+  if the stream <a href="Knowledge.html#state">state</a> was inconsistent</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_DATA_ERROR">Z_DATA_ERROR</a>
+  if the stream was freed prematurely (some input or output was discarded). </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">In the error case, <a href="Knowledge.html#msg">msg</a> may be set but then points to a static
+  string (which must not be deallocated). </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:20;height:14.3pt'>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:14.3pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(예제)</span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:21;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'>if (<a href="BasicFunction.html#deflateEnd">deflateEnd</a>(&amp;z) != Z_OK) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;deflateEnd: %s\n&quot;, (z.msg) ?<span style='mso-spacerun:yes'>&nbsp; </span>z.msg : &quot;???&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:22;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:23;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="851" colspan="4" valign="top" style='width:638.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">3.
+  복원 &#8211; </span></b><span lang="EN-US"><a href="GZIP_Example.html#Decompress" target="_blank">소스 코드 보기</a><b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:24;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="3" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">A.
+  <span style='color:blue'>int <a name="inflateInit">inflateInit</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm);</span><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:25;height:125.8pt'>
+					<td width="36" rowspan="4" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:125.8pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" rowspan="4" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:125.8pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" rowspan="4" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:125.8pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:125.8pt'>
+						<p class="MsoNormal"><span lang="EN-US">Initializes the internal stream <a href="Knowledge.html#state">state</a> for decompression. <span style='color:red'>The fields <a href="Knowledge.html#next_in"><span style='color:red'>next_in</span></a>, <a href="Knowledge.html#avail_in"><span style='color:red'>avail_in</span></a>, <a href="Knowledge.html#zalloc"><span style='color:red'>zalloc</span></a>, <a href="Knowledge.html#zfree"><span style='color:red'>zfree</span></a> and <a href="Knowledge.html#opaque"><span style='color:red'>opaque</span></a> must be initialized before by the caller.</span>
+  If <a href="Knowledge.html#next_in">next_in</a> is not <a href="Knowledge.html#Z_NULL">Z_NULL</a> and <a href="Knowledge.html#avail_in">avail_in</a>
+  is large enough (the exact value depends on the compression method),
+  inflateInit determines the compression method from the zlib header and
+  allocates all data structures accordingly; otherwise the allocation will be
+  deferred to the first call of <a href="BasicFunction.html#inflate">inflate</a>.
+  </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">If <a href="Knowledge.html#zalloc">zalloc</a>
+  and <a href="Knowledge.html#zfree">zfree</a> are set to <a href="Knowledge.html#Z_NULL">Z_NULL</a>, <a href="BasicFunction.html#inflateInit">inflateInit</a> updates them to use
+  default allocation functions. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US"><o:p>&nbsp;</o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:26;height:4.0pt'>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:4.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(Error
+  Return)</span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:27;height:7.5pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:7.5pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:7.5pt'>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_OK">Z_OK</a> if
+  success </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_MEM_ERROR">Z_MEM_ERROR</a>
+  if there was not enough memory</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_VERSION_ERROR">Z_VERSION_ERROR</a>
+  if the zlib library version is incompatible with the version assumed by the
+  caller. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#msg">msg</a> is
+  set to null if there is no error message. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="BasicFunction.html#inflateInit">inflateInit</a>
+  does not perform any decompression apart from reading the zlib header if
+  present: this will be done by <a href="BasicFunction.html#inflate">inflate</a>().
+  <span style='color:red'>(So <a href="Knowledge.html#next_in"><span style='color:red'>next_in</span></a> and <a href="Knowledge.html#avail_in"><span style='color:red'>avail_in</span></a> may be modified, but <a href="Knowledge.html#next_out"><span style='color:red'>next_out</span></a>
+  and <a href="Knowledge.html#avail_out"><span style='color:red'>avail_out</span></a>
+  are unchanged.) <o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:28;height:11.3pt'>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:11.3pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(예제)<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:29;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal" style='text-indent:15.0pt;mso-char-indent-count:1.5'><span lang="EN-US" style='font-size:10.0pt'>z_stream z;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='text-indent:15.0pt;mso-char-indent-count:1.5'><span lang="EN-US" style='font-size:10.0pt;color:green'>/* 모든 메모리 메니지먼트를 라이브러리에 맡긴다
+  */<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.zalloc = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.zfree = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.opaque = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt;color:green'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>/* 초기화 */<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt;color:red'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.next_in = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt;color:red'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.avail_in = 0;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>if (<a href="BasicFunction.html#inflateInit">
+									inflateInit</a>(&amp;z) != Z_OK) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;inflateInit: %s\n&quot;, (z.msg) ?<span style='mso-spacerun:yes'>&nbsp; </span>z.msg : &quot;???&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:30;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:31;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="3" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">B.
+  <span style='color:blue'>int <a name="inflate">inflate</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm, int flush);</span><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:32;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><a href="BasicFunction.html#inflate">inflate</a>
+  decompresses as much data as possible, and stops when the input buffer
+  becomes empty or the output buffer becomes full. It may some introduce some
+  output latency (reading input without producing any output) except when
+  forced to flush. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">The detailed semantics are as follows. <a href="BasicFunction.html#inflate">inflate</a> performs one or both of the
+  following actions: </span></p>
+						<p class="MsoNormal" style='margin-left:40.0pt;text-indent:-20.0pt;mso-list:
+  l0 level1 lfo4;tab-stops:list 40.0pt'><![if !supportLists]><span lang="EN-US" style='font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+  Wingdings'><span style='mso-list:Ignore'>l<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]><span lang="EN-US">Decompress more input
+  starting at <a href="Knowledge.html#next_in">next_in</a> and update <a href="Knowledge.html#next_in">next_in</a> and <a href="Knowledge.html#avail_in">avail_in</a> accordingly. If not all input can
+  be processed (because there is not enough room in the output buffer), <a href="Knowledge.html#next_in">next_in</a> is updated and processing will
+  resume at this point for the next call of inflate(). </span></p>
+						<p class="MsoNormal" style='margin-left:40.0pt;text-indent:-20.0pt;mso-list:
+  l0 level1 lfo4;tab-stops:list 40.0pt'><![if !supportLists]><span lang="EN-US" style='font-family:Wingdings;mso-fareast-font-family:Wingdings;mso-bidi-font-family:
+  Wingdings'><span style='mso-list:Ignore'>l<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span></span></span><![endif]><span lang="EN-US">Provide more output starting
+  at <a href="Knowledge.html#next_out">next_out</a> and update <a href="Knowledge.html#next_out">next_out</a> and <a href="Knowledge.html#avail_out">avail_out</a> accordingly. inflate() provides
+  as much output as possible, until there is no more input data or no more
+  space in the output buffer (see below about the flush parameter). </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">Before the call of <a href="BasicFunction.html#inflate">inflate</a>(), the application should
+  ensure that at least one of the actions is possible, by providing more input
+  and/or consuming more output, and updating the next_* and avail_* values
+  accordingly. The application can consume the uncompressed output when it
+  wants, for example when the output buffer is full (<a href="Knowledge.html#avail_out">avail_out</a> == 0), or after each call of <a href="BasicFunction.html#inflate">inflate</a>(). If <a href="BasicFunction.html#inflate">inflate</a> returns <a href="Knowledge.html#Z_OK">Z_OK</a> and with zero <a href="Knowledge.html#avail_out">avail_out</a>, it must be called again after
+  making room in the output buffer because there might be more output pending. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">If the parameter flush is set to <a href="Knowledge.html#Z_SYNC_FLUSH">Z_SYNC_FLUSH</a>, <a href="BasicFunction.html#inflate">inflate</a> flushes as much output as
+  possible to the output buffer. The flushing behavior of <a href="BasicFunction.html#inflate">inflate</a> is not specified for values of
+  the flush parameter other than <a href="Knowledge.html#Z_SYNC_FLUSH">Z_SYNC_FLUSH</a>
+  and <a href="Knowledge.html#Z_FINISH">Z_FINISH</a>, but the current implementation
+  actually flushes as much output as possible anyway. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="BasicFunction.html#inflate">inflate</a>()
+  should normally be called until it returns <a href="Knowledge.html#Z_STREAM_END">Z_STREAM_END</a> or an error. However if all
+  decompression is to be performed in a single step (a single call of <a href="BasicFunction.html#inflate">inflate</a>), the parameter flush should be
+  set to <a href="Knowledge.html#Z_FINISH">Z_FINISH</a>. In this case all
+  pending input is processed and all pending output is flushed ; <a href="Knowledge.html#avail_out">avail_out</a> must be large enough to hold
+  all the uncompressed data. (The size of the uncompressed data may have been
+  saved by the compressor for this purpose.) The next operation on this stream
+  must be <a href="BasicFunction.html#inflateEnd">inflateEnd</a> to deallocate
+  the decompression <a href="Knowledge.html#state">state</a>. The use of <a href="Knowledge.html#Z_FINISH">Z_FINISH</a> is never required, but can be
+  used to inform <a href="BasicFunction.html#inflate">inflate</a> that a faster
+  routine may be used for the single <a href="BasicFunction.html#inflate">inflate</a>()
+  call. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">If a preset dictionary is needed at this
+  point (see <a href="http://www.gzip.org/zlib/manual.html#inflateSetDictionary#inflateSetDictionary">inflateSetDictionary</a>
+  below), <a href="BasicFunction.html#inflate">inflate</a> sets strm-<a href="http://www.gzip.org/zlib/manual.html#adler#adler">adler</a></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><span style='mso-spacerun:yes'>&nbsp;</span>to the <a href="http://www.gzip.org/zlib/manual.html#adler32#adler32">
+									adler32</a>
+  checksum of the dictionary chosen by the compressor and returns <a href="http://www.gzip.org/zlib/manual.html#Z_NEED_DICT#Z_NEED_DICT">Z_NEED_DICT</a>
+  ; otherwise it sets strm-&gt; <a href="http://www.gzip.org/zlib/manual.html#adler#adler">adler</a> to the <a href="http://www.gzip.org/zlib/manual.html#adler32#adler32">adler32</a>
+  checksum of all output produced so far (that is, <a href="http://www.gzip.org/zlib/manual.html#total_out#total_out">total_out</a>
+  bytes) and returns <a href="Knowledge.html#Z_OK">Z_OK</a>, <a href="Knowledge.html#Z_STREAM_END">Z_STREAM_END</a> or an error code as
+  described below. At the end of the stream, <a href="BasicFunction.html#inflate">inflate</a>() checks that its computed <a href="http://www.gzip.org/zlib/manual.html#adler32#adler32">adler32</a>
+  checksum is equal to that saved by the compressor and returns <a href="Knowledge.html#Z_STREAM_END">Z_STREAM_END</a> only if the checksum is
+  correct. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="BasicFunction.html#inflate">inflate</a>()
+  returns <a href="Knowledge.html#Z_OK">Z_OK</a> if some progress has been made
+  (more input processed or more output produced), <a href="Knowledge.html#Z_STREAM_END">Z_STREAM_END</a> if the end of the
+  compressed data has been reached and all uncompressed output has been
+  produced, <a href="http://www.gzip.org/zlib/manual.html#Z_NEED_DICT#Z_NEED_DICT">Z_NEED_DICT</a>
+  if a preset dictionary is needed at this point, <a href="Knowledge.html#Z_DATA_ERROR">Z_DATA_ERROR</a> if the input data was
+  corrupted (input stream not conforming to the zlib format or incorrect <a href="http://www.gzip.org/zlib/manual.html#adler32#adler32">adler32</a>
+  checksum), <a href="Knowledge.html#Z_STREAM_ERROR">Z_STREAM_ERROR</a> if the
+  stream structure was inconsistent (for example if <a href="Knowledge.html#next_in">next_in</a> or <a href="Knowledge.html#next_out">next_out</a>
+  was NULL), <a href="Knowledge.html#Z_MEM_ERROR">Z_MEM_ERROR</a> if there was
+  not enough memory, <a href="Knowledge.html#Z_BUF_ERROR">Z_BUF_ERROR</a> if no
+  progress is possible or if there was not enough room in the output buffer
+  when <a href="Knowledge.html#Z_FINISH">Z_FINISH</a> is used. In the <a href="Knowledge.html#Z_DATA_ERROR">Z_DATA_ERROR</a> case, the application may
+  then call <a href="http://www.gzip.org/zlib/manual.html#inflateSync#inflateSync">inflateSync</a>
+  to look for a good compression block. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">(<b style='mso-bidi-font-weight:normal'>예제)</b></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:33;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal" style='text-indent:15.0pt;mso-char-indent-count:1.5'><span lang="EN-US" style='font-size:10.0pt'>z_stream z;<o:p></o:p></span></p>
+						<p class="MsoNormal" style='text-indent:15.0pt;mso-char-indent-count:1.5'><span lang="EN-US" style='font-size:10.0pt;color:green'>/* 모든 메모리 메니지먼트를 라이브러리에 맡긴다
+  */<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.zalloc = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.zfree = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.opaque = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt;color:green'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>/* 초기화 */<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.next_in = Z_NULL;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.avail_in = 0;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>if (<a href="BasicFunction.html#inflateInit">
+									inflateInit</a>(&amp;z) != Z_OK) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;inflateInit: %s\n&quot;, (z.msg) ?<span style='mso-spacerun:yes'>&nbsp; </span>z.msg : &quot;???&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.next_out = outbuf;<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/* 출력 포인터 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>z.avail_out =
+  OUTBUFSIZE;<span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/* 출력 버퍼 잔량 */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>status = Z_OK;<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>while (status !=
+  Z_STREAM_END) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (z.avail_in == 0) {<span style='mso-spacerun:yes'>&nbsp; </span><span style='color:green'>/* 입력 잔량이 제로가 되면 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>z.next_in = inbuf;<span style='mso-spacerun:yes'>&nbsp; </span><span style='color:green'>/* 입력 포인터를 바탕으로 되돌린다 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>z.avail_in = fread(inbuf, 1, INBUFSIZE, fin); <span style='color:green'>/*
+  데이터를 읽는다 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>status = <a href="BasicFunction.html#inflate">inflate</a>(&amp;z,
+  Z_NO_FLUSH); <span style='color:green'>/* 전개 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (status == Z_STREAM_END) break; <span style='color:green'>/* 완료 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (status != Z_OK) {<span style='mso-spacerun:yes'>&nbsp;&nbsp; </span><span style='color:green'>/* 에러 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span><span style='mso-spacerun:yes'>&nbsp;</span>fprintf(stderr,
+  &quot;inflate: %s\n&quot;, (z.msg) ?<span style='mso-spacerun:yes'>&nbsp;
+  </span>z.msg : &quot;???&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (z.avail_out == 0) { <span style='color:green'>/* 출력 버퍼가 다하면 정리해 써낸다 */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>if (fwrite(outbuf, 1, OUTBUFSIZE, fout) != OUTBUFSIZE) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;Write error\n&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>z.next_out = outbuf; <span style='color:green'>/* 출력 포인터를 바탕으로 되돌린다 */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>z.avail_out = OUTBUFSIZE; <span style='color:green'>/* 출력 버퍼 잔량을 바탕으로 되돌린다
+  */</span><o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/*
+  나머지를 토해낸다 */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>if ((count = OUTBUFSIZE -
+  z.avail_out) != 0) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>if
+  (fwrite(outbuf, 1, count, fout) != count) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;Write error\n&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span><span style='color:green'>/*
+  뒤처리 */<o:p></o:p></span></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>if (<a href="BasicFunction.html#inflateEnd">
+									inflateEnd</a>(&amp;z) != Z_OK) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>fprintf(stderr,
+  &quot;inflateEnd: %s\n&quot;, (z.msg) ?<span style='mso-spacerun:yes'>&nbsp;
+  </span>z.msg : &quot;???&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:34;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="815" colspan="3" valign="top" style='width:611.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">C.
+  <span style='color:blue'>int <a name="inflateEnd">inflateEnd</a> (<a href="Knowledge.html#z_streamp">z_streamp</a> strm);</span><o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:35;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US">All dynamically allocated data structures
+  for this stream are freed. This function discards any unprocessed input and
+  does not flush any pending output. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(Error
+  Return )<o:p></o:p></span></b></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:36;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_OK">Z_OK</a> if
+  success</span></p>
+						<p class="MsoNormal"><span lang="EN-US"><a href="Knowledge.html#Z_STREAM_ERROR">Z_STREAM_ERROR</a>
+  if the stream <a href="Knowledge.html#state">state</a> was inconsistent. </span></p>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US">In the error case, <a href="Knowledge.html#msg">msg</a> may be set but then points to a static
+  string (which must not be deallocated). </span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:37;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="779" colspan="2" valign="top" style='width:584.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><b style='mso-bidi-font-weight:normal'><span lang="EN-US">(예제)</span></b><span lang="EN-US" style='font-size:10.0pt'><o:p></o:p></span></p>
+					</td>
+				</tr>
+				<tr style='mso-yfti-irow:38;mso-yfti-lastrow:yes;height:5.0pt'>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="36" valign="top" style='width:27.0pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+					</td>
+					<td width="743" valign="top" style='width:557.6pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:5.0pt'>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'>if ( <span style='color:red'><a href="BasicFunction.html#inflateEnd">inflateEnd</a></span>(&amp;z)
+  != Z_OK ) {<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>fprintf(stderr, &quot;inflateEnd: %s\n&quot;, (z.msg) ?<span style='mso-spacerun:yes'>&nbsp; </span>z.msg : &quot;???&quot;);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>exit(1);<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'>}<o:p></o:p></span></p>
+						<p class="MsoNormal"><span lang="EN-US" style='font-size:10.0pt'><o:p>&nbsp;</o:p></span></p>
+					</td>
+				</tr>
+			</table>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+			<p class="MsoNormal"><span lang="EN-US"><o:p>&nbsp;</o:p></span></p>
+
+		</div>
+
+<!-- 구글 로그분석코드 시작 -->
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-64652-1";
+urchinTracker();
+</script>
+<!-- 구글 로그분석코드 완료 -->
+	</body>
+
+</html>

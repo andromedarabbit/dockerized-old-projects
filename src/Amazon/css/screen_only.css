@@ -1,0 +1,78 @@
+/* CSS Document */
+
+#content p {
+	font-size:13px; 
+	line-height: 22px;
+}
+
+#header
+{
+	text-align: center;
+}
+
+dl 
+{ 
+	margin-left: 3em; 
+}
+	
+dt 
+{
+	display: list-item;
+	list-style-type: circle; 
+}
+	
+.class 
+{
+}
+
+#header
+{
+	text-align: center;
+}
+
+
+blockquote {
+	color: black;
+	padding: 10px;
+	margin: 10px;
+	border: 1px solid #000000;
+}
+
+q {
+  quotes: '\201C' '\201D' '\2018' '\2019';
+}
+	
+q:before {
+  content: open-quote;
+}
+	
+q:after {
+  content: close-quote;
+}
+
+q {
+  font-style: italic;
+}
+
+p>q, li>q {
+  font-style: normal;
+}
+
+.drop {
+	border: 2px solid #ccc;
+	background: #eee;
+}
+
+pre.codebox {
+    border: 1pt dashed black;
+    white-space: pre;
+    font-size: 8pt;
+    overflow: auto;
+    margin: 10px;
+    padding: 10px;
+}
+
+abbr, acronym, .help {
+  border-bottom: 1px dotted;
+  cursor: help;
+}

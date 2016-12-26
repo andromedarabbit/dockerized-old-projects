@@ -1,0 +1,136 @@
+/* CSS Document */
+
+/* Document specific */
+#epilogue p {
+	font-weight:bold;
+}
+
+#myself p {
+margin-left: 20px;
+	}
+
+/* bloglines styles */
+#content p {
+	word-spacing: .2em;
+}
+
+.title	{
+	font-family: Trebuchet MS, verdana, arial, sans-serif;
+	font-size: 18px;
+	font-weight:normal;
+	text-align: right;
+	padding-bottom: 5px;
+	color: black;
+	border-bottom: 2px dotted black;
+	}
+
+.sidetitle
+	{
+	font-size: 16px;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	color: black;
+	border-bottom: 2px dotted black;
+	text-align: left;
+	}
+
+#menu a.noline:link, #menu a.noline:visited
+{
+	color: black;
+	border: none;
+}
+
+
+#content dl dt {
+	font-weight: bold
+}
+
+blockquote {
+	color: black;
+        margin: 10px;
+	background-color: #f3f3e6;
+	border: 1px solid #ddddd3; 
+	padding: 0.7em 1.5em;
+}
+
+q {
+  quotes: '\201C' '\201D' '\2018' '\2019';
+}
+	
+q:before {
+  content: open-quote;
+}
+	
+q:after {
+  content: close-quote;
+}
+
+q {
+  font-style: italic;
+}
+
+p>q, li>q {
+  font-style: normal;
+}
+
+.drop {
+	font-size: 200%;
+	line-height: 1em;
+	margin: 4px 10px 10px 0;
+	padding: 4px 10px;
+}
+
+pre.codebox {
+   	white-space: pre;
+   	font-size: 8pt;
+    margin: 5px;
+   	display: block;
+	margin: 1.0em 0;
+	padding: 0.4em 0 0.4em 0.8em;
+	border-left: 1px solid #ccc;
+	background-color: #eee;
+	overflow: auto;
+}
+
+abbr, acronym, .help {
+  border-bottom: 1px dotted;
+  cursor: help;
+}
+
+
+kbd{
+	background-color: #ddd;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	font-size: inherit;
+	font-family: inherit;
+	padding: 0 3px 2px 4px;
+	}
+
+hr {
+    margin: 0;
+    padding: 0;
+    height: 1px;
+    border: none;
+    border-top: 1px dashed #000;
+}
+
+#content ol li {
+	list-style-type: decimal;
+	}
+	
+#content ol li ol li {
+	list-style-type: upper-alpha;
+	}
+
+#content ol li ol li ol li {
+	list-style-type: lower-alpha;
+	}
+	
+#content ol li ol li ol li ol li {
+	list-style-type: upper-latin;
+	}
+	
+#content ol li ol li ol li ol li ol li{
+	list-style-type: lower-latin;
+	}

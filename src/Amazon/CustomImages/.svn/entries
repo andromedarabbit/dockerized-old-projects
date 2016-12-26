@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="29"
+   name=""
+   committed-date="2005-08-16T04:15:09.671875Z"
+   url="svn://develop/public/Document/Guideline/SubversionOnWindows/CustomImages"
+   last-author="surem"
+   kind="dir"
+   revision="29"/>
+<entry
+   committed-rev="29"
+   name="2_4.CVS.zip"
+   text-time="2005-08-16T04:11:05.265625Z"
+   committed-date="2005-08-16T04:15:09.671875Z"
+   checksum="50c263ae4a999495872ad322c87c7ca2"
+   last-author="surem"
+   kind="file"
+   prop-time="2005-08-16T04:13:26.500000Z"/>
+<entry
+   name="2_4.CVS.pdf"
+   kind="file"
+   deleted="true"
+   revision="30"/>
+</wc-entries>
