@@ -14,3 +14,7 @@ docker run -p 8080:80 --name oldprojects-running andromedarabbit/old-projects
 ```
 
 Now navigate to http://localhost:8080 and look around!
+
+
+
+[paypal-donations]: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=VG4JMPL7SDBGG&lc=KR&item_name=andromedarabbit%2fmybatis%2dpagination&item_number=mybatis%2dpagination&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
