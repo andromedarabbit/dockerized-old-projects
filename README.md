@@ -1,3 +1,6 @@
+[![](https://images.microbadger.com/badges/image/andromedarabbit/old-projects.svg)](https://microbadger.com/images/andromedarabbit/old-projects "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/andromedarabbit/old-projects.svg)](https://microbadger.com/images/andromedarabbit/old-projects "Get your own version badge on microbadger.com")
+
 # Old projects from 2007
 
 * Zlib Library Manual
